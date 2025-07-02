@@ -1,2 +1,0 @@
-/Library/Developer/CommandLineTools/usr/bin/ar qc ../target/lib/libmath.a CMakeFiles/math.dir/Math3d.cpp.o
-/Library/Developer/CommandLineTools/usr/bin/ranlib ../target/lib/libmath.a
