@@ -19,7 +19,7 @@ project(${LIBRARY_NAME} VERSION 1.0.0 LANGUAGES C CXX)
 
 add_subdirectory(src)
 
-include(CTest)
+include(CTest) #Enable CTest - unfortunately this has to be on the main CMakeLists file or it will not detect tests.
 enable_testing()
 
 add_subdirectory(test)

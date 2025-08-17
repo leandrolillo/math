@@ -44,7 +44,7 @@ class BaseMatrix {
 		virtual real operator()(unsigned int fila, unsigned int columna) const = 0;
 
 		virtual String toString(String format = defaultNumberFormat) const {
-			std::string result;
+			String result;
 
 			char temp[500];
 
