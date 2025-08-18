@@ -1,2 +1,1 @@
-use multithreading
-use cuda c++ for vectorN and MatrixN
+Add unit tests
