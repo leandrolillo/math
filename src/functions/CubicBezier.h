@@ -29,7 +29,7 @@ class CubicBezier: public FunctionRealVectorial {
             unsigned int length = x0.getLength();
 
             if (length <= 0 || x1.getLength() != length || x2.getLength() != length || x3.getLength() != length)
-                throw InvalidArgumentException("Control points length should match and be greater than zero");
+                throw std::invalid_argument("Control points length should match and be greater than zero");
 
             this->x0 = x0;
             this->x1 = x1;
@@ -39,7 +39,7 @@ class CubicBezier: public FunctionRealVectorial {
 
         vectorN evaluate(real t) const {
             if (t < 0 || t > 1.0)
-                throw new InvalidArgumentException("t parameter must belong to [0.0, 1.0] interval");
+                throw std::invalid_argument("t parameter must belong to [0.0, 1.0] interval");
 
 //      vectorN term1 = x0 * pow(1.0 - t, 3.0);
 //      logger->debug("term1 = [%s]", term1.toString().c_str());
