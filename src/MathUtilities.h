@@ -8,7 +8,7 @@
 #ifndef SRC_MATHUTILITIES_H_
 #define SRC_MATHUTILITIES_H_
 
-#include "src/Math3d.h"
+#include "Math3d.h"
 
 class MatrixUtilities
 {
