@@ -10,7 +10,7 @@
 
 	#include<vector>
 	
-#include "../src/Math3d.h"
+#include "Math3d.h"
 
 
 	class FunctionMultiplication;

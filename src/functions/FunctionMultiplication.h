@@ -1,7 +1,7 @@
 #ifndef _CFUNCION_MULTIPLICACION_
 	#define _CFUNCION_MULTIPLICACION_
 	
-	#include "../src/functions/BinaryFunction.h"
+	#include "BinaryFunction.h"
 
 	class FunctionMultiplication : public BinaryFunction
 	{

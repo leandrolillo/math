@@ -1,7 +1,7 @@
 #ifndef _CFUNCION_RESTA_
 	#define _CFUNCION_RESTA_
 	
-	#include "../src/functions/BinaryFunction.h"
+	#include "BinaryFunction.h"
 
 	class FunctionSubstraction : public BinaryFunction
 	{

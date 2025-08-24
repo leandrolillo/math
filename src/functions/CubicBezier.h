@@ -9,7 +9,7 @@
 #define SRC_MATH_FUNCTIONS_CUBICBEZIER_H_
 
 #include<Logger.h>
-#include "../src/functions/FunctionRealVectorial.h"
+#include "FunctionRealVectorial.h"
 
 class CubicBezier: public FunctionRealVectorial {
     private:

@@ -1,9 +1,7 @@
 #ifndef _CFUNCION_DIVISION_
 	#define _CFUNCION_DIVISION_
 	
-	#include "../src/functions/BinaryFunction.h"
-#include "exceptions/InvalidArgumentException.h"
-	
+	#include "BinaryFunction.h"
 
 	class FunctionDivision : public BinaryFunction
 	{
@@ -18,7 +16,7 @@
 				
 				if(!equalsZero(denominador))
 					return this->op1.evaluate(x) / denominador;
-				else throw InvalidArgumentException("Division by Zero! - FunctionDivision::evaluate(...)");
+				else throw std::invalid_argument("Division by Zero! - FunctionDivision::evaluate(...)");
 			}
 			
 			virtual std::string toString() const

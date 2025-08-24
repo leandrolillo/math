@@ -1,7 +1,7 @@
 #ifndef _CFUNCION_BINARIA_H_
 	#define _CFUNCION_BINARIA_H_
 	
-	#include "../src/functions/Function.h"
+	#include "Function.h"
 
 	class BinaryFunction : public Function
 	{

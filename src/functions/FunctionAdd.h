@@ -1,7 +1,7 @@
 #ifndef _CFUNCION_SUMA_
 	#define _CFUNCION_SUMA_
 	
-	#include "../src/functions/BinaryFunction.h"
+	#include "BinaryFunction.h"
 
 	class FunctionAdd : public BinaryFunction
 	{

@@ -18,7 +18,7 @@
 #ifndef FUNCTIONREALVECTORIAL_H_
 #define FUNCTIONREALVECTORIAL_H_
 
-#include "../src/functions/Function.h"
+#include "Function.h"
 
 class FunctionRealVectorial {
 public:
