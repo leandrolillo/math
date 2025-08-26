@@ -59,7 +59,7 @@ class BaseMatrix {
 				}
 
 				for(unsigned int currentColumn = 0; currentColumn < this->getNroColumnas(); currentColumn++) {
-					snprintf(temp, 500, format.c_str(), this->operator()(currentRow, currentColumn));
+					snprintf(temp, sizeof(temp), format.c_str(), this->operator()(currentRow, currentColumn));
 					//sprintf(temp, "%u %u", currentRow, currentColumn);
 					result += temp;
 
@@ -143,7 +143,7 @@ class matriz_2x2: public BaseMatrix {
 //
 //		unsigned char esSingular() const;
 //
-//		const real determinante() const;
+//		real determinante() const;
 //
 //		unsigned char invertir();
 //		const matriz_2x2 inversa() const;
@@ -305,7 +305,7 @@ class matriz_3x3: public BaseMatrix {
 		}
 
 
-		const real determinante(void) const { //Calcula el determinante de la matriz.
+		real determinante(void) const { //Calcula el determinante de la matriz.
 			return(	  this->_00 * this->_11 * this->_22 +
 						this->_02 * this->_10 * this->_21 +
 						this->_01 * this->_12 * this->_20 -
@@ -342,7 +342,7 @@ class matriz_3x3: public BaseMatrix {
 //		const matriz_3x3 ortonormalizada(void) const;
 //
 //		unsigned char esSingular(void);
-//		const real determinante(void);
+//		real determinante(void);
 //		unsigned char invertir(void);
 //		const matriz_3x3 inversa(void) const;
 //
@@ -505,7 +505,7 @@ class matriz_4x4: public BaseMatrix {
 								this->_03, this->_13,	this->_23, this->_33));
 		}
 
-		const real determinante(void) const { //Calcula el determinante de la matriz.
+		real determinante(void) const { //Calcula el determinante de la matriz.
             return(_00 * (_11 * _22 * _33 + _12 * _23 * _31 + _13 * _21 * _32
                             - _13 * _22 * _31 - _12 * _21 * _33 - _11 * _23 * _32)
                    - _10 * (_01 * _22 * _33 + _02 * _23 * _31 + _03 * _21 * _32
@@ -552,7 +552,7 @@ class matriz_4x4: public BaseMatrix {
 
 		//
 //			unsigned char esSingular(void);
-//			const real determinante(void);
+//			real determinante(void);
 //			unsigned char invertir(void);
 //			const matriz_4x4 inversa(void) const;
 //
@@ -630,8 +630,8 @@ class vector2 {
 		const vector2 operator -(const vector2 &op1) const;
 		const vector2 operator-(void) const;
 
-		const real operator *(const vector2 &op1) const;
-		const real operator ^(const vector2 &op1) const;
+		real operator *(const vector2 &op1) const;
+		real operator ^(const vector2 &op1) const;
 
 		void operator +=(const vector2 &op1);
 		void operator -=(const vector2 &op1);
@@ -639,7 +639,7 @@ class vector2 {
 
 		const vector2 operator *(const real &op1) const;
 
-		const real modulo() const;
+		real modulo() const;
 
 //		void normalizar();
 //		const vector2 normalizado() const;
@@ -647,21 +647,21 @@ class vector2 {
 //		void perpendicularizar();
 //		const vector2 perpendicularizado() const;
 //
-//		const real perpDotProduct(const vector2 &op1) const;
-//		const real productoEscalar(const vector2 &op1) const;
+//		real perpDotProduct(const vector2 &op1) const;
+//		real productoEscalar(const vector2 &op1) const;
 
 		operator real *() const;
 
 		String toString(String numberFormat = defaultNumberFormat) const {
             char temp[256];
 
-            snprintf(temp, 256, ("<" + numberFormat + ", " + numberFormat + ">").c_str(), this->x, this->y);
+            snprintf(temp, sizeof(temp), ("<" + numberFormat + ", " + numberFormat + ">").c_str(), this->x, this->y);
 
             return String(temp);
         }
 
 	private:
-		const real productoEscalar(const vector2 &op1) const {
+		real productoEscalar(const vector2 &op1) const {
 			return(this->x * op1.x + this->y * op1.y);
 		}
 
@@ -738,7 +738,7 @@ class vector3 {
 		       this->z *= op2;
 		}
 
-		const real operator*(const vector3 &op2) const { // Producto Escalar de vector3es
+		real operator*(const vector3 &op2) const { // Producto Escalar de vector3es
 			return(this->productoEscalar(op2));
 		}
 
@@ -746,7 +746,7 @@ class vector3 {
 			return(productoVectorial(op2));
 		}
 
-		const real modulo(void) const { // Devuelve el modulo del vector3
+		real modulo(void) const { // Devuelve el modulo del vector3
 			return((real)sqrt((this->x * this->x) + (this->y * this->y) + (this->z * this->z)));
 		}
 
@@ -754,10 +754,10 @@ class vector3 {
 			return((real *)this->m);
 		}
 
-//		const real operator() (int indice) const;
-//		const real modulo(void) const;
+//		real operator() (int indice) const;
+//		real modulo(void) const;
 //
-//		const real normalizar(void);
+//		real normalizar(void);
 		const vector3 normalizado(void) const {
 			real modulo = this->modulo();
 
@@ -774,12 +774,12 @@ class vector3 {
 		String toString(String numberFormat = defaultNumberFormat) const {
 			char temp[256];
 
-			snprintf(temp, 256, ("<" + numberFormat + ", " + numberFormat + ", " + numberFormat + ">").c_str(), this->x, this->y, this->z);
+			snprintf(temp, sizeof(temp), ("<" + numberFormat + ", " + numberFormat + ", " + numberFormat + ">").c_str(), this->x, this->y, this->z);
 
 			return String(temp);
 		}
 	private:
-		const real productoEscalar(const vector3 &op2) const {
+		real productoEscalar(const vector3 &op2) const {
 			return((this->x * op2.x) + (this->y * op2.y) + (this->z * op2.z));
 		}
 
@@ -856,7 +856,7 @@ class cuaternion {
 			return((real *)m);
 		}
 
-		const real modulo() const { // Devuelve el m�dulo del cuaternion
+		real modulo() const { // Devuelve el m�dulo del cuaternion
 			return((real)sqrt(this->w * this->w + this->x * this->x   +   this->y * this->y   +   this->z * this->z));
 		}
 
@@ -906,7 +906,7 @@ class cuaternion {
 		String toString(const String format = defaultNumberFormat) const {
 			char temp[256];
 
-			snprintf(temp, 256, ("<" + format + ", " + format + ", " + format + ", " + format + ">").c_str(), this->x, this->y, this->z, this->w);
+			snprintf(temp, sizeof(temp), ("<" + format + ", " + format + ", " + format + ", " + format + ">").c_str(), this->x, this->y, this->z, this->w);
 
 			return String(temp);
 		}
@@ -924,7 +924,7 @@ class cuaternion {
 //
 //			operator matriz_4x4() const;
 //			operator matriz_3x3() const;
-//			const real operator()(int nro) const;
+//			real operator()(int nro) const;
 
 		//Factory methods
 		static const cuaternion cuaternionRotacion(real angulo, const vector3 &eje) {

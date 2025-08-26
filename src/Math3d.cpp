@@ -57,7 +57,7 @@ const vector2 vector2::operator -(void) const {
 	return(vector2(-this->x, -this->y));
 }
 
-const real vector2::operator *(const vector2 &op1) const {
+real vector2::operator *(const vector2 &op1) const {
 	return(this->productoEscalar(op1));
 }
 
@@ -78,7 +78,7 @@ const vector2 vector2::operator *(const real &op1) const {
 	return(vector2(this->x * op1, this->y * op1));
 }
 
-const real vector2::modulo() const {
+real vector2::modulo() const {
 	return(sqrt(this->x * this->x + this->y * this->y));
 }
 
