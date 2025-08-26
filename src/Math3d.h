@@ -85,7 +85,6 @@ class BaseMatrix {
 		}
 
 		virtual ~BaseMatrix() {};
-
 	};
 
 class matriz_2x2: public BaseMatrix {
@@ -486,6 +485,14 @@ class matriz_4x4: public BaseMatrix {
 			return(*this);
 		}
 
+//		unsigned char operator==(const matriz_4x4 &op2) const {
+//		  return
+//		      this->_00 == op2._00 && this->_01 == op2._01 && this->_02 == op2._02 && this->_03 == op2._03 &&
+//		      this->_10 == op2._10 && this->_11 == op2._11 && this->_12 == op2._02 && this->_13 == op2._13 &&
+//		      this->_20 == op2._20 && this->_21 == op2._21 && this->_22 == op2._02 && this->_23 == op2._23 &&
+//		      this->_30 == op2._30 && this->_31 == op2._31 && this->_32 == op2._02 && this->_33 == op2._33;
+//		}
+
 		operator real *() const {
 			return((real *)m);
 		}
@@ -496,7 +503,6 @@ class matriz_4x4: public BaseMatrix {
 								_20, _21, _22));
 		}
 
-//			void trasponer(void);
 		const matriz_4x4 traspuesta(void) const {
 			return(matriz_4x4( 	this->_00, this->_10,	this->_20,	this->_30,
 								this->_01, this->_11, this->_21,	this->_31,
@@ -505,58 +511,57 @@ class matriz_4x4: public BaseMatrix {
 		}
 
 		real determinante(void) const { //Calcula el determinante de la matriz.
-            return(_00 * (_11 * _22 * _33 + _12 * _23 * _31 + _13 * _21 * _32
-                            - _13 * _22 * _31 - _12 * _21 * _33 - _11 * _23 * _32)
-                   - _10 * (_01 * _22 * _33 + _02 * _23 * _31 + _03 * _21 * _32
-                            - _03 * _22 * _31 - _03 * _21 * _33 - _01 * _23 * _32)
-                   + _20 * (_01 * _12 * _33 + _02 * _13 * _31 + _03 * _11 * _32
-                            - _03 * _12 * _31 - _02 * _11 * _33 - _01 * _13 * _32)
-                   - _30 * (_01 * _12 * _23 + _02 * _13 * _21 + _03 * _11 * _22
-                            - _03 * _12 * _21 - _02 * _11 * _23 - _01 * _13 * _22)
+        return(_00 * (_11 * _22 * _33 + _12 * _23 * _31 + _13 * _21 * _32
+                        - _13 * _22 * _31 - _12 * _21 * _33 - _11 * _23 * _32)
+               - _10 * (_01 * _22 * _33 + _02 * _23 * _31 + _03 * _21 * _32
+                        - _03 * _22 * _31 - _03 * _21 * _33 - _01 * _23 * _32)
+               + _20 * (_01 * _12 * _33 + _02 * _13 * _31 + _03 * _11 * _32
+                        - _03 * _12 * _31 - _02 * _11 * _33 - _01 * _13 * _32)
+               - _30 * (_01 * _12 * _23 + _02 * _13 * _21 + _03 * _11 * _22
+                        - _03 * _12 * _21 - _02 * _11 * _23 - _01 * _13 * _22)
+        );
+    }
 
-            );
-        }
+    const matriz_4x4 inversa(void) const {
+        real invDet = this->determinante();
+        if(invDet == 0.0f) {
+            throw std::invalid_argument("Could not calculate inverse of singular matrix (det=0). This is the matrix equivalent of a division by zero");
+        } else {
+            invDet = (real)1 / invDet;
 
-        const matriz_4x4 inversa(void) const {
-            real invDet = this->determinante();
-            if(invDet == 0.0f) {
-                throw std::invalid_argument("Could not calculate inverse of singular matrix (det=0). This is the matrix equivalent of a division by zero");
-            } else {
-                invDet = (real)1 / invDet;
+            return matriz_4x4(
+                (_11 * _22 * _33 + _12 * _23 * _31 + _13 * _21 * _32 - _13 * _22 * _31 - _12 * _21 * _33 - _11 * _23 * _32) * invDet,
+                (- _01 * _22 * _33 - _02 * _23 * _31 - _03 * _21 * _32 + _03 * _22 * _31 + _02 * _21 * _33 + _01 * _23 * _32) * invDet,
+                (_01 * _12 * _33 + _02 * _13 * _31 + _03 * _11 * _32 - _03 * _12 * _31 - _02 * _11 * _33 - _01 * _13 * _32) * invDet,
+                (- _01 * _12 * _23 - _02 * _13 * _21 - _03 * _11 * _22 + _03 * _12 * _21 + _02 * _11 * _23 + _01 * _13 * _22) * invDet,
 
-                return matriz_4x4(
-                    (_11 * _22 * _33 + _12 * _23 * _31 + _13 * _21 * _32 - _13 * _22 * _31 - _12 * _21 * _33 - _11 * _23 * _32) * invDet,
-                    (- _01 * _22 * _33 - _02 * _23 * _31 - _03 * _21 * _32 + _03 * _22 * _31 + _02 * _21 * _33 + _01 * _23 * _32) * invDet,
-                    (_01 * _12 * _33 + _02 * _13 * _31 + _03 * _11 * _32 - _03 * _12 * _31 - _02 * _11 * _33 - _01 * _13 * _32) * invDet,
-                    (- _01 * _12 * _23 - _02 * _13 * _21 - _03 * _11 * _22 + _03 * _12 * _21 + _02 * _11 * _23 + _01 * _13 * _22) * invDet,
+                (- _10 * _22 * _33 - _12 * _23 * _30 - _13 * _20 * _32 + _13 * _22 * _30 + _12 * _20 * _33 + _10 * _23 * _32) * invDet,
+                (_00 * _22 * _33 + _02 * _23 * _30 + _03 * _20 * _32 - _03 * _22 * _30 - _02 * _20 * _33 - _00 * _23 * _32) * invDet,
+                (- _00 * _12 * _33 - _02 * _13 * _30 - _03 * _10 * _32 + _03 * _12 * _30 + _02 * _10 * _33 + _00 * _13 * _32) * invDet,
+                (_00 * _12 * _23 + _02 * _13 * _20 + _03 * _10 * _22 - _03 * _12 * _20 - _02 * _10 * _23 - _00 * _13 * _22) * invDet,
 
-                    (- _10 * _22 * _33 - _12 * _23 * _30 - _13 * _20 * _32 + _13 * _22 * _30 + _12 * _20 * _33 + _10 * _23 * _32) * invDet,
-                    (_00 * _22 * _33 + _02 * _23 * _30 + _03 * _20 * _32 - _03 * _22 * _30 - _02 * _20 * _33 - _00 * _23 * _32) * invDet,
-                    (- _00 * _12 * _33 - _02 * _13 * _30 - _03 * _10 * _32 + _03 * _12 * _30 + _02 * _10 * _33 + _00 * _13 * _32) * invDet,
-                    (_00 * _12 * _23 + _02 * _13 * _20 + _03 * _10 * _22 - _03 * _12 * _20 - _02 * _10 * _23 - _00 * _13 * _22) * invDet,
+                (_10 * _21 * _33 + _11 * _23 * _30 + _13 * _20 * _31 - _13 * _21 * _30 - _11 * _20 * _33 - _10 * _23 * _31) * invDet,
+                (- _00 * _21 * _33 - _01 * _23 * _30 - _03 * _20 * _31 + _03 * _21 * _30 + _01 * _20 * _33 + _00 * _23 * _31) * invDet,
+                (_00 * _11 * _33 + _01 * _12 * _30 + _03 * _10 * _31 - _03 * _11 * _30 - _01 * _10 * _33 - _00 * _12 * _31) * invDet,
+                (- _00 * _11 * _23 - _01 * _13 * _20 - _03 * _10 * _21 + _03 * _11 * _20 + _01 * _10 * _23 + _00 * _13 * _21) * invDet,
 
-                    (_10 * _21 * _33 + _11 * _23 * _30 + _13 * _20 * _31 - _13 * _21 * _30 - _11 * _20 * _33 - _10 * _23 * _31) * invDet,
-                    (- _00 * _21 * _33 - _01 * _23 * _30 - _03 * _20 * _31 + _03 * _21 * _30 + _01 * _20 * _33 + _00 * _23 * _31) * invDet,
-                    (_00 * _11 * _33 + _01 * _12 * _30 + _03 * _10 * _31 - _03 * _11 * _30 - _01 * _10 * _33 - _00 * _12 * _31) * invDet,
-                    (- _00 * _11 * _23 - _01 * _13 * _20 - _03 * _10 * _21 + _03 * _11 * _20 + _01 * _10 * _23 + _00 * _13 * _21) * invDet,
-
-                    (-_10 * _21 * _32 - _11 * _22 * _30 - _12 * _20 * _31 + _12 * _21 * _30 + _11 * _20 * _32 + _10 * _22 * _31) * invDet,
-                    (_00 * _21 * _32 + _01 * _22 * _30 + _02 * _20 * _31 - _02 * _21 * _30 - _01 * _20 * _32 - _00 * _22 * _31) * invDet,
-                    (- _00 * _11 * _32 - _01 * _12 * _30 - _02 * _10 * _31 + _02 * _11 * _30 + _01 * _10 * _32 + _00 * _12 * _31) * invDet,
-                    (_00 * _11 * _22 + _01 * _12 * _20 + _02 * _10 * _21 - _02 * _11 * _20 - _01 * _10 * _22 - _00 * _12 * _21) * invDet
-                 );
-             }
-        }
+                (-_10 * _21 * _32 - _11 * _22 * _30 - _12 * _20 * _31 + _12 * _21 * _30 + _11 * _20 * _32 + _10 * _22 * _31) * invDet,
+                (_00 * _21 * _32 + _01 * _22 * _30 + _02 * _20 * _31 - _02 * _21 * _30 - _01 * _20 * _32 - _00 * _22 * _31) * invDet,
+                (- _00 * _11 * _32 - _01 * _12 * _30 - _02 * _10 * _31 + _02 * _11 * _30 + _01 * _10 * _32 + _00 * _12 * _31) * invDet,
+                (_00 * _11 * _22 + _01 * _12 * _20 + _02 * _10 * _21 - _02 * _11 * _20 - _01 * _10 * _22 - _00 * _12 * _21) * invDet
+             );
+         }
+    }
 
 
 		//
-//			unsigned char esSingular(void);
-//			real determinante(void);
-//			unsigned char invertir(void);
-//			const matriz_4x4 inversa(void) const;
-//
-//
-//			void invertirTransformacion(void);
+    //			unsigned char esSingular(void);
+    //			real determinante(void);
+    //			unsigned char invertir(void);
+    //			const matriz_4x4 inversa(void) const;
+    //
+    //
+    //			void invertirTransformacion(void);
 };
 
 class matriz_mxn: public BaseMatrix {
@@ -571,7 +576,10 @@ class matriz_mxn: public BaseMatrix {
 				if (0 <= columna && columna < this->getNroColumnas())
 					return this->elementos[fila * this->getNroColumnas() + columna];
 
-			throw std::out_of_range("Index Out of Bounds - matriz_mxn::operator()");
+      throw std::out_of_range("Index Out of Bounds - matriz_mxn[" + std::to_string(this->getNroFilas()) + "]" +
+          "[" + std::to_string(this->getNroColumnas()) + "]::" +
+          "operator(" + std::to_string(fila) + "," + std::to_string(columna) + ")");
+
 		}
 
 		real operator()(unsigned int fila, unsigned int columna) const override {
@@ -579,12 +587,28 @@ class matriz_mxn: public BaseMatrix {
 				if (0 <= columna && columna < this->getNroColumnas())
 					return this->elementos[fila * this->getNroColumnas() + columna];
 
-			throw std::out_of_range("Index Out of Bounds - matriz_mxn::operator()");
+			throw std::out_of_range("Index Out of Bounds - matriz_mxn[" + std::to_string(this->getNroFilas()) + "]" +
+			    "[" + std::to_string(this->getNroColumnas()) + "]::" +
+			    "operator(" + std::to_string(fila) + "," + std::to_string(columna) + ")");
 		}
+
+//		unsigned char operator==(const matriz_mxn &op1) const {
+//		  if(this->getNroColumnas() != op1.getNroColumnas() || this->getNroFilas() != op1.getNroFilas()) {
+//		    return false;
+//		  }
+//      for(unsigned short i = 0; i < this->getNroFilas(); i++) {
+//        for(unsigned short j = 0; j < this->getNroColumnas(); j++) {
+//          if(this->operator ()(i, j) != op1(i, j)) {
+//            return false;
+//          }
+//        }
+//      }
+//      return true;
+//		}
 
 		matriz_mxn();
 		matriz_mxn(unsigned int nroFilas, unsigned int nroColumnas);
-		matriz_mxn(const matriz_mxn &op2);//Constructor de copia (se necesitan cuando se maneja memoria din�micamente reservada)
+		matriz_mxn(const matriz_mxn &op2);//Constructor de copia (se necesitan cuando se maneja memoria dinamicamente reservada)
 		virtual ~matriz_mxn();
 
 		//operator const real() const;
@@ -855,7 +879,7 @@ class cuaternion {
 			return((real *)m);
 		}
 
-		real modulo() const { // Devuelve el m�dulo del cuaternion
+		real modulo() const { // Devuelve el modulo del cuaternion
 			return((real)sqrt(this->w * this->w + this->x * this->x   +   this->y * this->y   +   this->z * this->z));
 		}
 
@@ -874,7 +898,7 @@ class cuaternion {
 			return vector3(this->x, this->y, this->z);
 		}
 
-		operator matriz_4x4() const { //Obtiene la matriz de 3x3 correspondiente al cuaternion sobre el cual se aplica la operaci�n.
+		operator matriz_4x4() const { //Obtiene la matriz de 3x3 correspondiente al cuaternion sobre el cual se aplica la operacion.
 			real y2 = y * y, x2 = x * x, z2 = z * z;
 			real xy = x * y;
 			real xz = x * z;
@@ -961,7 +985,7 @@ class cuaternion {
 //
 //		}
 
-		static const cuaternion slerp(const cuaternion &dedonde, const cuaternion &adonde, real t) { // Interpola mediante el m�todo SLERP (Spherical Linear intERPolation).
+		static const cuaternion slerp(const cuaternion &dedonde, const cuaternion &adonde, real t) { // Interpola mediante el metodo SLERP (Spherical Linear intERPolation).
 			real sen, cos, omega, escala_0, escala_1;
 
 			cos = dedonde.x * adonde.x + dedonde.y * adonde.y + dedonde.z * adonde.z + dedonde.w * adonde.w;

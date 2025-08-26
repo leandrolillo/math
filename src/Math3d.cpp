@@ -908,19 +908,16 @@ matriz_mxn::~matriz_mxn()
 //	throw InvalidArgumentException("Index Out of Bounds - matriz_mxn::operator() const");
 //}
 
-const matriz_mxn &matriz_mxn::operator = (const matriz_mxn &op1)
+const matriz_mxn &matriz_mxn::operator =(const matriz_mxn &op1)
 {
-	if(op1.getNroColumnas() != 0 && op1.getNroFilas() != 0)
+	if(op1.getNroColumnas() > 0 && op1.getNroFilas() > 0)
 	{
-		if(this->getNroColumnas() != op1.getNroColumnas()
-			|| this->getNroFilas() != op1.getNroFilas())
-		{
+		if(this->getNroColumnas() != op1.getNroColumnas() || this->getNroFilas() != op1.getNroFilas()) {
 			if(this->elementos != null) delete [] this->elementos;
 
 			this->nroColumnas = op1.nroColumnas;
 			this->nroFilas = op1.nroFilas;
 			this->elementos = new real[this->nroFilas * this->nroColumnas];
-
 		}
 
 		memcpy(this->elementos, op1.elementos, sizeof(real) * this->getNroFilas() * this->getNroColumnas());
@@ -933,8 +930,8 @@ const matriz_mxn matriz_mxn::operator + (const matriz_mxn &op1) const
 	matriz_mxn respuesta(this->getNroFilas(), this->getNroColumnas());
 
 	if(this->getNroColumnas() == op1.getNroColumnas() && this->getNroFilas() == op1.getNroFilas())
-		for(unsigned short i = 1; i <= this->getNroFilas(); i++)
-			for(unsigned short j = 1; j <= this->getNroColumnas(); j++)
+		for(unsigned short i = 0; i < this->getNroFilas(); i++)
+			for(unsigned short j = 0; j < this->getNroColumnas(); j++)
 				respuesta(i, j) = (*(matriz_mxn *)this)(i, j) + ((matriz_mxn &)op1)(i, j);
 	else throw std::invalid_argument("matrices dimensions do not match - matriz_mxn::operator +");
 
@@ -954,8 +951,8 @@ const matriz_mxn matriz_mxn::operator - (const matriz_mxn &op1) const
 	matriz_mxn respuesta(this->getNroFilas(), this->getNroColumnas());
 
 	if(this->getNroFilas() == op1.getNroFilas() && this->getNroColumnas() == op1.getNroColumnas())
-		for(unsigned short i = 1; i <= this->getNroFilas(); i++)
-			for(unsigned short j = 1; j <= this->getNroColumnas(); j++)
+		for(unsigned short i = 0; i < this->getNroFilas(); i++)
+			for(unsigned short j = 0; j < this->getNroColumnas(); j++)
 				respuesta(i, j) = (*(matriz_mxn *)this)(i, j) - ((matriz_mxn &)op1)(i, j);
 	else throw std::invalid_argument("matrices dimensions do not match- matriz_mxn::operator -");
 
@@ -989,8 +986,8 @@ const matriz_mxn matriz_mxn::operator * (real op1) const
 {
 	matriz_mxn respuesta(this->getNroFilas(), this->getNroColumnas());
 
-	for(unsigned short i = 1; i <= this->getNroFilas(); i++)
-		for(unsigned short j = 1; j <= this->getNroColumnas(); j++)
+	for(unsigned short i = 0; i < this->getNroFilas(); i++)
+		for(unsigned short j = 10; j < this->getNroColumnas(); j++)
 			respuesta(i, j) = (*(matriz_mxn *)this)(i, j) * op1;
 
 	return(respuesta);
@@ -1006,10 +1003,10 @@ const matriz_mxn matriz_mxn::operator * (const matriz_mxn &op1) const
 	matriz_mxn resultado(this->getNroFilas(), op1.getNroColumnas());
 
 	if(this->getNroColumnas() == op1.getNroFilas()) {
-		for(unsigned short i = 1; i <= this->getNroFilas(); i++)
-			for(unsigned short j = 1; j <= op1.getNroColumnas(); j++) {
+		for(unsigned short i = 0; i < this->getNroFilas(); i++)
+			for(unsigned short j = 0; j < op1.getNroColumnas(); j++) {
 				resultado(i, j) = 0.0f;
-				for(unsigned short k = 1; k <= this->getNroColumnas(); k++)
+				for(unsigned short k = 0; k < this->getNroColumnas(); k++)
 					resultado(i, j) += (*(matriz_mxn *)this)(i, k) * ((matriz_mxn &)op1)(k, j);
 			}
 	}
@@ -1061,8 +1058,8 @@ const matriz_mxn matriz_mxn::identidad(unsigned int n)
 {
 	matriz_mxn identity(n, n);
 
-	for(unsigned int i = 1; i <= n; i++)
-		for(unsigned int j = 1; j <= n; j++)
+	for(unsigned int i = 0; i < n; i++)
+		for(unsigned int j = 0; j < n; j++)
 		{
 			if(i == j)
 				identity(i, j) = 1.0;
