@@ -1,5 +1,4 @@
-#ifndef _MATH3D_H_
-#define _MATH3D_H_
+#pragma once
 
 #include "MathConstants.h"
 //#include "baseMath.h"
@@ -1060,5 +1059,3 @@ class vectorN: public matriz_mxn {
 //					this->matriz_mxn::trasponer();
 //			}
 };
-
-#endif
