@@ -107,6 +107,10 @@ TEST_CASE("Matriz 2x2") {
     actual = actual * 2;
     CHECK_THAT(actual, EqualsMatrix(matriz_2x2( 2, 4,
                                                 6, 8)));
+
+    actual = 2 * actual;
+    CHECK_THAT(actual, EqualsMatrix(matriz_2x2( 4, 8,
+                                                12, 16)));
   }
 
   SECTION("Operator +(matriz_2x2)") {
@@ -199,6 +203,12 @@ TEST_CASE("Matriz 3x3") {
     CHECK_THAT(actual, EqualsMatrix(matriz_3x3( 2, 4, 6,
                                                 8, 10, 12,
                                                 14, 18, 18)));
+
+    actual = 2 * actual;
+    CHECK_THAT(actual, EqualsMatrix(matriz_3x3( 4, 8, 12,
+                                                16, 18, 24,
+                                                28, 36, 48)));
+
   }
 
   SECTION("Operator +(matriz_3x3)") {
@@ -314,6 +324,13 @@ TEST_CASE("matriz 4x4") {
                                                 10, 12, 14, 16,
                                                 18, 20, 22, 24,
                                                 26, 28, 30, 32)));
+
+    actual = 2 * actual;
+    CHECK_THAT(actual, EqualsMatrix(matriz_4x4( 4, 8, 12, 16,
+                                                20, 24, 28, 32,
+                                                36, 40, 44, 48,
+                                                52, 56, 60, 64)));
+
   }
 
   SECTION("Operator +(matriz_4x4)") {

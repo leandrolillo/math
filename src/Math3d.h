@@ -15,7 +15,7 @@ typedef matriz_4x4 matrix;
 typedef matriz_4x4 matrix_4x4;
 typedef vector3 vector;
 typedef vector2 texel;
-typedef cuaternion vector4;
+typedef cuaternion vector4; //I coded cuaternions first
 
 //#define defaultNumberFormat "%.3e"
 constexpr char const *defaultNumberFormat = "%.2f";
@@ -97,6 +97,11 @@ public:
 };
 
 class matriz_2x2: public BaseMatrix {
+  friend const vector2 operator *(const matriz_2x2 &left, const vector2 &right);
+  friend const matriz_2x2 operator *(const real &left, const matriz_2x2 &right){
+    return(matriz_2x2(left * right._00, left * right._01,
+                      left * right._10, left * right._11));
+  }
 protected:
   union {
     struct {
@@ -156,7 +161,6 @@ public:
     return(matriz_2x2(this->_00 * op1, this->_01 * op1,
                       this->_10 * op1, this->_11 * op1));
   }
-  const vector2 operator *(const vector2 &op1) const;
 
   void operator +=(const matriz_2x2 &op1) {
     this->_00 += op1._00; this->_01 += op1._01;
@@ -185,9 +189,13 @@ public:
 
 class matriz_3x3: public BaseMatrix {
   friend class matriz_4x4;
-  friend const vector3 operator*(const vector3 &op1, const matriz_3x3 &op2);
+  friend const vector3 operator*(const vector3 &op1, const matriz_3x3 &op2); //TODO: Do we need this?
   friend const vector3 operator*(const matriz_3x3 &op1, const vector3 &op2);
-  friend const matriz_3x3 operator *(real op1, const matriz_3x3 &op2);
+  friend const matriz_3x3 operator *(real op1, const matriz_3x3 &op2) {
+    return(matriz_3x3(  op2._00 * op1, op2._01 * op1, op2._02 * op1,
+              op2._10 * op1, op2._11 * op1, op2._12 * op1,
+              op2._20 * op1, op2._21 * op1, op2._22 * op1));
+  }
 protected:
   union {
     struct {
@@ -383,6 +391,15 @@ public:
 };
 
 class matriz_4x4: public BaseMatrix {
+  friend const vector3 operator*(const matriz_4x4 &left, const vector3 &right);
+  friend const vector4 operator*(const matriz_4x4 &left, const vector4 &right);
+  friend const matriz_4x4 operator *(real op1, const matriz_4x4 &op2) {
+    return (matriz_4x4( op1 * op2._00, op1 * op2._01, op1 * op2._02, op1 * op2._03,
+                        op1 * op2._10, op1 * op2._11, op1 * op2._12, op1 * op2._13,
+                        op1 * op2._20, op1 * op2._21, op1 * op2._22, op1 * op2._23,
+                        op1 * op2._30, op1 * op2._31, op1 * op2._32, op1 * op2._33));
+  }
+
   friend class matriz_3x3;
 private:
   union {
@@ -491,9 +508,6 @@ public:
         _11 * op2, _12 * op2, _13 * op2, _20 * op2, _21 * op2, _22 * op2,
         _23 * op2, _30 * op2, _31 * op2, _32 * op2, _33 * op2));
   }
-
-  const vector3 operator*(const vector3 &op1) const;
-  const vector4 operator*(const vector4 &op1) const;
 
   const matriz_4x4 operator +(const matriz_4x4 &op2) const {
     return (matriz_4x4( _00 + op2._00, _01 + op2._01, _02 + op2._02, _03 + op2._03,

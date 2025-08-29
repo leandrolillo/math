@@ -29,12 +29,12 @@ matriz_4x4 matriz_4x4::identidad(	1.0f, 0.0f, 0.0f, 0.0f,
 
 //  / / - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // | |  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// | |                  Funciones de la MATRIZ_2X2
+// | |                  Funciones FRIEND de las clases  MATRIZ_2X2 y VECTOR2
 // | | - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 //  \ \  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-const vector2 matriz_2x2::operator *(const vector2 &op1) const {
-  return(vector2(this->_00 * op1.x + this->_01 * op1.y, this->_10 * op1.x + this->_11 * op1.y));
+const vector2 operator *(const matriz_2x2 &left, const vector2 &right) {
+  return(vector2(left._00 * right.x + left._01 * right.y, left._10 * right.x + left._11 * right.y));
 }
 
 //  / / - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -150,12 +150,6 @@ const vector2 matriz_2x2::operator *(const vector2 &op1) const {
 // | |									Funciones FRIEND de las clases  MATRIZ_3X3 y VECTOR
 // | | - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 //  \ \  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	const matriz_3x3 operator *(real op1, const matriz_3x3 &op2) {
-		return(matriz_3x3(	op2._00 * op1, op2._01 * op1, op2._02 * op1,
-							op2._10 * op1, op2._11 * op1, op2._12 * op1,
-							op2._20 * op1, op2._21 * op1, op2._22 * op1));
-	}
-
 	const vector3 operator*(const vector3 &op1, const matriz_3x3 &op2) {
 		return(vector3(	(op1.x * op2._00) + (op1.y * op2._10) + (op1.z * op2._20),
 					  (op1.x * op2._01) + (op1.y * op2._11) + (op1.z * op2._21),
@@ -169,6 +163,30 @@ const vector2 matriz_2x2::operator *(const vector2 &op1) const {
 	}
 
 //  / / - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+// | |  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// | |                  Funciones FRIEND de las clases  MATRIZ_3X3 y VECTOR
+// | | - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+//  \ \  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+/**
+ * Multiplies op1 * op2<x, y, z, 1>
+ */
+	const vector3 operator*(const matriz_4x4 &op1, const vector3 &op2) {
+    return(vector3( op1._00 * op2.x + op1._01 * op2.y + op1._02 * op2.z + op1._03,
+                    op1._10 * op2.x + op1._11 * op2.y + op1._12 * op2.z + op1._13,
+                    op1._20 * op2.x + op1._21 * op2.y + op1._22 * op2.z + op1._23
+    ));
+  }
+
+  const vector4 operator*(const matriz_4x4 &op1, const vector4 &op2) {
+          return(vector4( op1._00 * op2.x + op1._01 * op2.y + op1._02 * op2.z + op1._03 * op2.w,
+                          op1._10 * op2.x + op1._11 * op2.y + op1._12 * op2.z + op1._13 * op2.w,
+                          op1._20 * op2.x + op1._21 * op2.y + op1._22 * op2.z + op1._23 * op2.w,
+                          op1._30 * op2.x + op1._31 * op2.y + op1._32 * op2.z + op1._33 * op2.w
+          ));
+      }
+
+//  / / - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // | |  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // | |									Funciones de la Clase MATRIZ_4x4
 // | | - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -288,26 +306,6 @@ const vector2 matriz_2x2::operator *(const vector2 &op1) const {
 							orientacion._20, 	orientacion._21, 	orientacion._22, 	posicion.z,
 							0.0f, 				0.0f, 				0.0f, 				1.0f);
 	}
-
-
-
-	const vector3 matriz_4x4::operator*(const vector3 &op1) const {
-		return(vector3(
-		            _00 * op1.x + _01 * op1.y + _02 * op1.z + _03,
-					_10 * op1.x + _11 * op1.y + _12 * op1.z + _13,
-					_20 * op1.x + _21 * op1.y + _22 * op1.z + _23
-		));
-	}
-
-	const vector4 matriz_4x4::operator*(const vector4 &op1) const {
-	        return(vector4(
-	                _00 * op1.x + _01 * op1.y + _02 * op1.z + _03 * op1.w,
-                    _10 * op1.x + _11 * op1.y + _12 * op1.z + _13 * op1.w,
-                    _20 * op1.x + _21 * op1.y + _22 * op1.z + _23 * op1.w,
-                    _30 * op1.x + _31 * op1.y + _32 * op1.z + _33 * op1.w
-	        ));
-	    }
-
 
 //	void matriz_4x4::Trasponer(void) { //Transpone la matriz
 //		matriz_4x4 tmp = *this;
