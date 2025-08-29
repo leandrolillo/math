@@ -705,6 +705,10 @@ public:
   const vector2 operator-(void) const {
     return(vector2(-this->x, -this->y));
   }
+  const vector2 operator *(const real &op1) const {
+    return(vector2(this->x * op1, this->y * op1));
+  }
+
   real operator *(const vector2 &op1) const {
     return(this->productoEscalar(op1));
   }
@@ -723,12 +727,19 @@ public:
     this->y *= op1;
   }
 
-  const vector2 operator *(const real &op1) const {
-    return(vector2(this->x * op1, this->y * op1));
-  }
-
   real modulo() const {
     return(sqrt(this->x * this->x + this->y * this->y));
+  }
+
+  vector2 normalizado() const {
+    real modulo = this->modulo();
+
+    if (modulo == 0.0f)
+      throw std::invalid_argument(
+          "Vector module is 0. Division by 0 when normalizing");
+
+    real oneOverModule = (real) 1 / modulo;
+    return vector2(this->x * oneOverModule, this->y * oneOverModule);
   }
 
   unsigned int getLength() const {
@@ -877,9 +888,7 @@ public:
           "Vector module is 0. Division by 0 when normalizing");
 
     real oneOverModule = (real) 1 / modulo;
-    return (vector3(this->x * oneOverModule, this->y * oneOverModule,
-        this->z * oneOverModule));
-
+    return (vector3(this->x * oneOverModule, this->y * oneOverModule, this->z * oneOverModule));
   }
 
   unsigned int getLength() const {

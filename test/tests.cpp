@@ -382,3 +382,73 @@ TEST_CASE("matriz 4x4") {
     CHECK_THAT(actual, EqualsVector(vector4( 82, 63, 106, 13+28+45+64)));
   }
 }
+
+TEST_CASE("Vector2") {
+  SECTION("Metadata") {
+    vector2 actual(1.0, 2.0);
+    CHECK(actual.getLength() == 2);
+  }
+
+  SECTION("Operator(i)") {
+    vector2 actual(1.0, 2.0);
+
+    CHECK(actual(0) == 1.0);
+    CHECK(actual(1) == 2.0);
+  }
+
+  SECTION("Operator+(vector2)") {
+    vector2 left(1.0, 2.0);
+    vector2 right(1.0, 2.0);
+
+    vector2 actual = left + right;
+    CHECK_THAT(actual, EqualsVector(vector2(2, 4)));
+  }
+  SECTION("Operator-(vector3)") {
+    vector2 left(1.0, 2.0);
+    vector2 right(1.0, 2.0);
+
+    vector2 actual = left - right;
+    CHECK_THAT(actual, EqualsVector(vector2(0, 0)));
+
+    actual = -left;
+    CHECK_THAT(actual, EqualsVector(vector2(-1, -2)));
+  }
+
+  SECTION("Operator*(real)") {
+    vector2 left(1.0, 2.0);
+    real right = 2.0;
+
+    vector2 actual = left * right;
+    CHECK_THAT(actual, EqualsVector(vector2(2, 4)));
+
+    actual = right * left;
+    CHECK_THAT(actual, EqualsVector(vector2(2, 4)));
+
+  }
+
+  SECTION("Operator*(vector) - dot product") {
+    vector2 left(1.0, 2.0);
+    vector2 right(3.0, 4.0);
+
+    real actual = left * right;
+    CHECK(actual == 11);
+
+    actual = right * left;
+    CHECK(actual == 11);
+  }
+
+  SECTION("Modulo") {
+    vector2 left(3.0, 4.0);
+
+    real actual = left.modulo();
+    CHECK(actual == 5);
+  }
+
+  SECTION("Normalizado") {
+    vector2 left(3.0, 4.0);
+
+    vector2 actual = left.normalizado();
+    CHECK_THAT(actual, EqualsVector(vector2(3/5, 4/5)));
+  }
+
+}
