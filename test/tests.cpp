@@ -392,8 +392,8 @@ TEST_CASE("Vector2") {
   SECTION("Operator(i)") {
     vector2 actual(1.0, 2.0);
 
-    CHECK(actual(0) == 1.0);
-    CHECK(actual(1) == 2.0);
+    CHECK((actual(0) == 1.0 && actual.x == 1.0));
+    CHECK((actual(1) == 2.0 && actual.y == 2.0));
   }
 
   SECTION("Operator+(vector2)") {
@@ -462,9 +462,9 @@ TEST_CASE("vector3") {
   SECTION("Operator(i)") {
     vector3 actual(1.0, 2.0, 3.0);
 
-    CHECK(actual(0) == 1.0);
-    CHECK(actual(1) == 2.0);
-    CHECK(actual(3) == 3.0);
+    CHECK((actual(0) == 1.0 && actual.x == 1.0));
+    CHECK((actual(1) == 2.0 && actual.y == 2.0));
+    CHECK((actual(2) == 3.0 && actual.z == 3.0));
   }
 
   SECTION("Operator+(vector3)") {
@@ -520,6 +520,79 @@ TEST_CASE("vector3") {
 
     vector3 actual = left.normalizado();
     CHECK_THAT(actual, EqualsVector(vector3(2/3, 2/3, 1/3)));
+  }
+
+}
+
+TEST_CASE("vector4") {
+  SECTION("Metadata") {
+    vector4 actual(1.0, 2.0, 3.0, 4.0);
+    CHECK(actual.getLength() == 4);
+  }
+
+  SECTION("Operator(i)") {
+    vector4 actual(1.0, 2.0, 3.0, 4.0);
+
+    CHECK((actual(0) == 1.0 && actual.x == 1.0));
+    CHECK((actual(1) == 2.0 && actual.y == 2.0));
+    CHECK((actual(2) == 3.0 && actual.z == 3.0));
+    CHECK((actual(3) == 4.0 && actual.w == 4.0));
+  }
+
+  SECTION("Operator+(vector4)") {
+    vector4 left(1.0, 2.0, 3.0, 4.0);
+    vector4 right(1.0, 2.0, 3.0, 4.0);
+
+    vector4 actual = left + right;
+    CHECK_THAT(actual, EqualsVector(vector4(2, 4, 6, 8)));
+  }
+  SECTION("Operator-(vector4)") {
+    vector4 left(1.0, 2.0, 3.0, 4.0);
+    vector4 right(1.0, 2.0, 3.0, 4.0);
+
+    vector4 actual = left - right;
+    CHECK_THAT(actual, EqualsVector(vector4(0, 0, 0, 0)));
+
+    actual = -left;
+    CHECK_THAT(actual, EqualsVector(vector4(-1, -2, -3, -4)));
+  }
+
+  SECTION("Operator*(real)") {
+    vector4 left(1.0, 2.0, 3.0, 4.0);
+    real right = 2.0;
+
+    vector4 actual = left * right;
+    CHECK_THAT(actual, EqualsVector(vector4(2, 4, 6, 8)));
+
+    actual = right * left;
+    CHECK_THAT(actual, EqualsVector(vector4(2, 4, 6, 8)));
+
+  }
+
+  //TODO: Review vector4/quaternion operator * is not dot product but quaternion multiplication
+//  SECTION("Operator*(vector4) - quaternion multiplication") {
+//    vector4 left(1.0, 2.0, 3.0, 4.0);
+//    vector4 right(5.0, 6.0, 7.0, 8.0);
+//
+//    real actual = left * right;
+//    CHECK(actual == 70);
+//
+//    actual = right * left;
+//    CHECK(actual == 70);
+//  }
+
+  SECTION("Modulo") {
+    vector4 left(1.0, 1.0, 1.0, 1.0);
+
+    real actual = left.modulo();
+    CHECK(actual == 2);
+  }
+
+  SECTION("Normalizado") {
+    vector4 left(1.0, 1.0, 1.0, 1.0);
+
+    vector4 actual = left.normalizado();
+    CHECK_THAT(actual, EqualsVector(vector4(1/2, 1/2, 1/2, 1/2)));
   }
 
 }

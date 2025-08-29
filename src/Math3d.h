@@ -936,6 +936,10 @@ private:
 };
 
 class cuaternion {
+  friend const vector3 operator*(real op1, const vector4 &op2) {
+    return (vector4(op1 * op2.x, op1 * op2.y, op1 * op2.z, op1 * op2.w));
+  }
+
 public:
   union {
     struct {
@@ -944,6 +948,7 @@ public:
     real m[4];
   };
 
+public:
   cuaternion(void) {
     this->x = 0.0;
     this->y = 0.0;
