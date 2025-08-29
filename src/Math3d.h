@@ -38,6 +38,11 @@ public:
   unsigned int getNroColumnas() const {
     return this->nroColumnas;
   }
+
+  unsigned int getLength() const {
+    return getNroFilas() * getNroColumnas();
+  }
+
   virtual real& operator()(unsigned int fila, unsigned int columna) = 0;
 
   virtual real operator()(unsigned int fila, unsigned int columna) const = 0;
@@ -173,15 +178,8 @@ public:
     return(matriz_2x2(this->_00, this->_10,
                       this->_01, this->_11));
   }
-//
-//		void ortoNormalizar();
-//		const matriz_2x2 ortoNormalizada() const;
-//
 //		unsigned char esSingular() const;
-//
 //		real determinante() const;
-//
-//		unsigned char invertir();
 //		const matriz_2x2 inversa() const;
 };
 
@@ -378,19 +376,10 @@ public:
     }
   }
 
-//		void transponer(void);
 //		const matriz_3x3 transpuesta(void) const;
-//
-//		void ortonormalizar(void);
-//		const matriz_3x3 ortonormalizada(void) const;
-//
 //		unsigned char esSingular(void);
-//		real determinante(void);
-//		unsigned char invertir(void);
-//		const matriz_3x3 inversa(void) const;
 //
 //		void star(const vector3 &op1);
-  //real &operator()(int fila, int columna);
 };
 
 class matriz_4x4: public BaseMatrix {
@@ -1027,7 +1016,7 @@ public:
     return vector3(this->x, this->y, this->z);
   }
 
-  operator matriz_4x4() const { //Obtiene la matriz de 3x3 correspondiente al cuaternion sobre el cual se aplica la operacion.
+  operator matriz_4x4() const { //Obtiene la matriz de 4x4 correspondiente al cuaternion sobre el cual se aplica la operacion.
     real y2 = y * y, x2 = x * x, z2 = z * z;
     real xy = x * y;
     real xz = x * z;
@@ -1040,7 +1029,7 @@ public:
         2.0f * (yz - wx), 0.0f, 2.0f * (xz - wy), 2.0f * (yz + wx),
         1.0f - 2.0f * (x2 + y2), 0.0f, 0.0f, 0.0f, 0.0f, 1.0f));
   }
-  operator matriz_3x3() const { // obtiene la matriz de 4x4 que corresponde al cuaternion
+  operator matriz_3x3() const { // obtiene la matriz de 3x3 que corresponde al cuaternion
     real y2 = y * y, x2 = x * x, z2 = z * z;
     real xy = x * y;
     real xz = x * z;
@@ -1052,6 +1041,26 @@ public:
         2.0f * (xz + wy), 2.0f * (xy + wz), 1.0f - 2.0f * (x2 + z2),
         2.0f * (yz - wx), 2.0f * (xz - wy), 2.0f * (yz + wx),
         1.0f - 2.0f * (x2 + y2)));
+  }
+
+  unsigned int getLength() const {
+    return 4;
+  }
+
+  real& operator()(unsigned int i) {
+    if (i < getLength()) {
+      return m[i];
+    } else {
+      throw std::out_of_range("Index [" + std::to_string(i) + "] out of bounds - length = " + std::to_string(getLength()));
+    }
+  }
+
+  real operator()(unsigned int i) const {
+    if (i < getLength()) {
+      return m[i];
+    } else {
+      throw std::out_of_range("Index [" + std::to_string(i) + "] out of bounds - length = " + std::to_string(getLength()));
+    }
   }
 
   String toString(const String format = defaultNumberFormat) const {
@@ -1158,15 +1167,6 @@ public:
 //			{
 //			}
 
-  unsigned int getLength() const {
-    if (this->getNroColumnas() > this->getNroFilas())
-      return getNroColumnas();
-
-    return getNroFilas();
-  }
-  virtual real& operator()(unsigned int fila, unsigned int columna) {
-    throw std::domain_error("Vector doesn't support this method"); // TODO: Review if we can remove this method via compiler
-  }
   virtual real& operator()(unsigned int index) {
     if (this->getNroFilas() == 1)
       return ((BaseMatrix*) this)->operator ()(1, index);

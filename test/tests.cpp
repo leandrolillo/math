@@ -257,3 +257,128 @@ TEST_CASE("Matriz 3x3") {
     CHECK_THAT(actual, EqualsVector(vector3( 26, 35, 42)));
   }
 }
+
+TEST_CASE("matriz 4x4") {
+  SECTION("Metadata") {
+    matriz_4x4 actual(1.0, 2.0, 3.0, 4.0,
+                      5.0, 6.0, 7.0, 8.0,
+                      9.0, 10.0, 11.0, 12.0,
+                      13.0, 14.0, 15.0, 16.0);
+    CHECK(actual.getNroFilas() == 4);
+    CHECK(actual.getNroColumnas() == 4);
+  }
+
+  SECTION("Operator(i, j)") {
+    matriz_4x4 actual(1.0, 2.0, 3.0, 4.0,
+        5.0, 6.0, 7.0, 8.0,
+        9.0, 10.0, 11.0, 12.0,
+        13.0, 14.0, 15.0, 16.0);
+
+    CHECK(actual(0, 0) == 1.0);
+    CHECK(actual(0, 1) == 2.0);
+    CHECK(actual(0, 2) == 3.0);
+    CHECK(actual(0, 3) == 4.0);
+    CHECK(actual(1, 0) == 5.0);
+    CHECK(actual(1, 1) == 6.0);
+    CHECK(actual(1, 2) == 7.0);
+    CHECK(actual(1, 3) == 8.0);
+    CHECK(actual(2, 0) == 9.0);
+    CHECK(actual(2, 1) == 10.0);
+    CHECK(actual(2, 2) == 11.0);
+    CHECK(actual(2, 3) == 12.0);
+    CHECK(actual(3, 0) == 13.0);
+    CHECK(actual(3, 1) == 14.0);
+    CHECK(actual(3, 2) == 15.0);
+    CHECK(actual(3, 3) == 16.0);
+
+
+  }
+
+  SECTION("identidad") {
+    matriz_4x4 actual {matriz_4x4::identidad};
+
+    CHECK_THAT(actual, EqualsMatrix(matriz_4x4( 1, 0, 0, 0,
+                                                0, 1, 0, 0,
+                                                0, 0, 1, 0,
+                                                0, 0, 0, 1)));
+  }
+
+  SECTION("Operator *(real)") {
+    matriz_4x4 actual(1.0, 2.0, 3.0, 4.0,
+                      5.0, 6.0, 7.0, 8.0,
+                      9.0, 10.0, 11.0, 12.0,
+                      13.0, 14.0, 15.0, 16.0);
+
+    actual = actual * 2;
+    CHECK_THAT(actual, EqualsMatrix(matriz_4x4( 2, 4, 6, 8,
+                                                10, 12, 14, 16,
+                                                18, 20, 22, 24,
+                                                26, 28, 30, 32)));
+  }
+
+  SECTION("Operator +(matriz_4x4)") {
+    matriz_4x4 left(1.0, 2.0, 3.0, 4.0,
+                    5.0, 6.0, 7.0, 8.0,
+                    9.0, 10.0, 11.0, 12.0,
+                    13.0, 14.0, 15.0, 16.0);
+
+    matriz_4x4 right( 1.0, 2.0, 3.0, 4.0,
+                      5.0, 6.0, 7.0, 8.0,
+                      9.0, 10.0, 11.0, 12.0,
+                      13.0, 14.0, 15.0, 16.0);
+
+    matriz_4x4 actual = left + right;
+    CHECK_THAT(actual, EqualsMatrix(matriz_4x4( 2, 4, 6, 8,
+                                                10, 12, 14, 16,
+                                                18, 20, 22, 24,
+                                                26, 28, 30, 32)));
+  }
+
+  SECTION("Operator -(matriz_4x4)") {
+    matriz_4x4 left(1.0, 2.0, 3.0, 4.0,
+                    5.0, 6.0, 7.0, 8.0,
+                    9.0, 10.0, 11.0, 12.0,
+                    13.0, 14.0, 15.0, 16.0);
+
+    matriz_4x4 right( 1.0, 2.0, 3.0, 4.0,
+                      5.0, 6.0, 7.0, 8.0,
+                      9.0, 10.0, 11.0, 12.0,
+                      13.0, 14.0, 15.0, 16.0);
+
+    matriz_4x4 actual = left - right;
+    CHECK_THAT(actual, EqualsMatrix(matriz_4x4( 0, 0, 0, 0,
+                                                0, 0, 0, 0,
+                                                0, 0, 0, 0,
+                                                0, 0, 0, 0)));
+  }
+
+  SECTION("Operator *(matriz_4x4)") {
+    matriz_4x4 left(1.0, 2.0, 3.0, 4.0,
+                    5.0, 6.0, 7.0, 8.0,
+                    9.0, 10.0, 11.0, 12.0,
+                    13.0, 14.0, 15.0, 16.0);
+
+    matriz_4x4 right( 1.0, 2.0, 3.0, 4.0,
+                      5.0, 6.0, 7.0, 8.0,
+                      9.0, 10.0, 11.0, 12.0,
+                      13.0, 14.0, 15.0, 16.0);
+
+    matriz_4x4 actual = left * right;
+    CHECK_THAT(actual, EqualsMatrix(matriz_4x4( 90, 100, 110, 120,
+                                                202, 228,  254, 280,
+                                                314, 356, 398, 440,
+                                                426, 484, 542, 600)));
+  }
+
+  SECTION("Operator *(vector4)") {
+    matriz_4x4 left(1.0, 2.0, 3.0, 4.0,
+                    5.0, 6.0, 7.0, 8.0,
+                    9.0, 10.0, 11.0, 12.0,
+                    13.0, 14.0, 15.0, 16.0);
+
+    vector4 right(  1.0, 2.0, 3.0, 4.0);
+
+    vector4 actual = left * right;
+    CHECK_THAT(actual, EqualsVector(vector4( 82, 63, 106, 13+28+45+64)));
+  }
+}
