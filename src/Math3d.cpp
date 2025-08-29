@@ -27,285 +27,250 @@ matriz_4x4 matriz_4x4::identidad(	1.0f, 0.0f, 0.0f, 0.0f,
 									   0.0f, 0.0f, 1.0f, 0.0f,
 									   0.0f, 0.0f, 0.0f, 1.0f);
 
-//  / / - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// | |  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// | |                  Funciones FRIEND de las clases  MATRIZ_2X2 y VECTOR2
-// | | - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-//  \ \  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
+/*****************************************************
+ * Funciones FRIEND de las clases  MATRIZ_2X2 y VECTOR
+ *****************************************************/
 const vector2 operator *(const matriz_2x2 &left, const vector2 &right) {
   return(vector2(left._00 * right.x + left._01 * right.y, left._10 * right.x + left._11 * right.y));
 }
 
-//  / / - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-// | |  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// | |									Funciones de la MATRIZ_3X3
-// | | - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-//  \ \  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+/*****************************************************
+ * Funciones FRIEND de las clases  MATRIZ_3X3 y VECTOR
+ *****************************************************/
+const vector3 operator*(const vector3 &op1, const matriz_3x3 &op2) {
+  return(vector3( (op1.x * op2._00) + (op1.y * op2._10) + (op1.z * op2._20),
+          (op1.x * op2._01) + (op1.y * op2._11) + (op1.z * op2._21),
+          (op1.x * op2._02) + (op1.y * op2._12) + (op1.z * op2._22)));
+}
 
-	const matriz_3x3 matriz_3x3::matrizRotacion(const vector &eulerAngles) {
-	    return matrizRotacion(eulerAngles.x, eulerAngles.y, eulerAngles.z);
-	}
+const vector3 operator*(const matriz_3x3 &op1, const vector3 &op2) {
+  return(vector3( (op1._00 * op2.x) + (op1._01 * op2.y) + (op1._02 * op2.z),
+          (op1._10 * op2.x)  + (op1._11 * op2.y)  + (op1._12 * op2.z),
+          (op1._20 * op2.x)  + (op1._21 * op2.y) + (op1._22 * op2.z)));
+}
 
-	/**
-	 * x, y, z (euler angles) en radianes
-	 */
-	const matriz_3x3 matriz_3x3::matrizRotacion(real x, real y, real z) {
-		real cx = (real)cos(x), sx = (real)sin(x);
-		real cy = (real)cos(y), sy = (real)sin(y);
-		real cz = (real)cos(z), sz = (real)sin(z);
-
-		return matriz_3x3(
-			cy * cz, 	sx * sy * cz - cx * sz, 	cx * sy * cz + sx * sz,
-			cy * sz, 	sx * sy * sz + cx * cz, 	cx * sy * sz - sx * cz,
-			-sy, 		sx * cy, 					cx * cy);
-	}
-
-	/**
-	 * angulo en radianes
-	 */
-	const matriz_3x3 matriz_3x3::matrizRotacion(real angulo, real x, real y, real z) {
-		real c, s, umc, nxny1cos, nxnz1cos, nynz1cos;
-		c = (real)cos(angulo);
-		s = (real)sin(angulo);
-		umc = (real)(1.0 - c); // umc = Uno Menos Coseno
-
-		nxny1cos = x * y * umc;
-		nxnz1cos = x * z * umc;
-		nynz1cos = y * z * umc;
-
-		return matriz_3x3(	(x * x * umc + c), 	nxny1cos - s * z, 	nxnz1cos + s * y,
-							nxny1cos + s * z, 	(y * y * umc) + c, 	nynz1cos - s * x,
-							nxnz1cos - s * y, 	nynz1cos + s * x, 	z * z * umc + c);
-	}
-
-	/**
-	 * Asume que el eje está normalizado
-	 */
-	const matriz_3x3 matriz_3x3::matrizRotacion(real angulo, const vector3 &eje) {
-		return matrizRotacion(angulo, eje.x, eje.y, eje.z);
-	}
-
-
-//	matriz_3x3::matriz_3x3(real x, real y, real z) { //Rotaci�n de Angulos de Euler
-//		this->HacerRotacion(x, y, z);
-//	}
-//
-//	matriz_3x3::matriz_3x3(const vector3 &angulos) { //Rotaci�n de Angulos de Euler
-//		this->HacerRotacion(angulos);
-//	}
-//
-//	matriz_3x3::matriz_3x3(const vector3 &vec0, const vector3 &vec1, const vector3 &vec2) { // Construye la matriz con los vector3es como columnas
-//		this->_00 = vec0.x; this->_01 = vec1.x; this->_02 = vec2.x;
-//		this->_10 = vec0.y; this->_11 = vec1.y; this->_12 = vec2.y;
-//		this->_20 = vec0.z; this->_21 = vec1.z; this->_22 = vec2.z;
-//	}
-//
-//	matriz_3x3::matriz_3x3(real angulo, real x, real y, real z) { // Rotaci�n de angulo-eje(x, y, z)
-//		this->HacerRotacion(angulo, x, y, z);
-//	}
-//	matriz_3x3::matriz_3x3(real angulo, const vector3 &eje) { // Rotaci�n angulo-eje
-//		this->HacerRotacion(angulo, eje);
-//	}
-
-    /**
-     * Si no lo dejo, no funciona el operador (matriz_4x4)matriz_3x3. Da error de compilacion por ambiguedad en la línea que llama a la función.
-     */
-	matriz_3x3::matriz_3x3(const matriz_4x4 &op1) : BaseMatrix(3, 3) {
-		this->_00 = op1._00; this->_01 = op1._01; this->_02 = op1._02;
-		this->_10 = op1._10; this->_11 = op1._11; this->_12 = op1._12;
-		this->_20 = op1._20; this->_21 = op1._21; this->_22 = op1._22;
-	}
-
-	matriz_3x3::matriz_3x3(vector column0, vector column1, vector column2) : BaseMatrix(3, 3) {
-		this->_00 = column0.x; this->_01 = column1.x; this->_02 = column2.x;
-		this->_10 = column0.y; this->_11 = column1.y; this->_12 = column2.y;
-		this->_20 = column0.z; this->_21 = column1.z; this->_22 = column2.z;
-	}
-
-
-	matriz_3x3::operator matriz_4x4 () const {
-		return(matriz_4x4(	_00, _01, _02, 0.0, 
-							_10, _11, _12, 0.0,
-							_20, _21, _22, 0.0,
-							0.0, 0.0, 0.0, 1.0));
-	}
-
-	vector matriz_3x3::fila(unsigned int fila) const {
-			if (fila > 2)
-					throw std::out_of_range("Index Out of Bounds - matriz_3x3::fila(...)");
-
-			return vector(m[fila * 3], m[fila * 3 + 1], m[fila * 3 + 2]);
-	}
-
-	vector matriz_3x3::columna(unsigned int columna) const {
-			if (columna > 2)
-					throw std::out_of_range("Index Out of Bounds - matriz_3x3::columna(...)");
-
-			return vector(m[0 * 3 + columna], m[1 * 3 + columna], m[2 * 3 + columna]);
-	}
-	
-//  / / - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-// | |  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// | |									Funciones FRIEND de las clases  MATRIZ_3X3 y VECTOR
-// | | - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-//  \ \  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	const vector3 operator*(const vector3 &op1, const matriz_3x3 &op2) {
-		return(vector3(	(op1.x * op2._00) + (op1.y * op2._10) + (op1.z * op2._20),
-					  (op1.x * op2._01) + (op1.y * op2._11) + (op1.z * op2._21),
-					  (op1.x * op2._02) + (op1.y * op2._12) + (op1.z * op2._22)));
-	}
-
-	const vector3 operator*(const matriz_3x3 &op1, const vector3 &op2) {
-		return(vector3(	(op1._00 * op2.x) + (op1._01 * op2.y) + (op1._02 * op2.z),
-					  (op1._10 * op2.x)  + (op1._11 * op2.y)  + (op1._12 * op2.z),
-					  (op1._20 * op2.x)  + (op1._21 * op2.y) + (op1._22 * op2.z)));
-	}
-
-//  / / - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-// | |  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// | |                  Funciones FRIEND de las clases  MATRIZ_3X3 y VECTOR
-// | | - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-//  \ \  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
+/*****************************************************
+ * Funciones FRIEND de las clases  MATRIZ_4X4 y VECTOR
+ *****************************************************/
 /**
  * Multiplies op1 * op2<x, y, z, 1>
  */
-	const vector3 operator*(const matriz_4x4 &op1, const vector3 &op2) {
-    return(vector3( op1._00 * op2.x + op1._01 * op2.y + op1._02 * op2.z + op1._03,
-                    op1._10 * op2.x + op1._11 * op2.y + op1._12 * op2.z + op1._13,
-                    op1._20 * op2.x + op1._21 * op2.y + op1._22 * op2.z + op1._23
-    ));
-  }
+const vector3 operator*(const matriz_4x4 &op1, const vector3 &op2) {
+  return(vector3( op1._00 * op2.x + op1._01 * op2.y + op1._02 * op2.z + op1._03,
+                  op1._10 * op2.x + op1._11 * op2.y + op1._12 * op2.z + op1._13,
+                  op1._20 * op2.x + op1._21 * op2.y + op1._22 * op2.z + op1._23
+  ));
+}
 
-  const vector4 operator*(const matriz_4x4 &op1, const vector4 &op2) {
-          return(vector4( op1._00 * op2.x + op1._01 * op2.y + op1._02 * op2.z + op1._03 * op2.w,
-                          op1._10 * op2.x + op1._11 * op2.y + op1._12 * op2.z + op1._13 * op2.w,
-                          op1._20 * op2.x + op1._21 * op2.y + op1._22 * op2.z + op1._23 * op2.w,
-                          op1._30 * op2.x + op1._31 * op2.y + op1._32 * op2.z + op1._33 * op2.w
-          ));
-      }
-
-//  / / - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// | |  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// | |									Funciones de la Clase MATRIZ_4x4
-// | | - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-//  \ \  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	const vector4 matriz_4x4::fila(unsigned int fila) const {
-		if (fila > this->nroFilas)
-			throw std::invalid_argument(("Index Out of Bounds - matriz_4x4::fila(" + std::to_string(fila) + ")").c_str());
-		return vector4(m[fila * 4 + 0], m[fila * 4 + 1], m[fila * 4 + 2], m[fila * 4 + 3]);
-	}
-
-	const vector4 matriz_4x4::columna(unsigned int columna) const {
-		if (columna > this->nroColumnas)
-			throw std::invalid_argument(("Index Out of Bounds - matriz_4x4::columna(" + std::to_string(columna) + ")").c_str());
-		return vector4(m[0 * 4 + columna], m[1 * 4 + columna], m[2 * 4 + columna], m[3 * 4 + columna]);
-	}
+const vector4 operator*(const matriz_4x4 &op1, const vector4 &op2) {
+  return(vector4( op1._00 * op2.x + op1._01 * op2.y + op1._02 * op2.z + op1._03 * op2.w,
+                  op1._10 * op2.x + op1._11 * op2.y + op1._12 * op2.z + op1._13 * op2.w,
+                  op1._20 * op2.x + op1._21 * op2.y + op1._22 * op2.z + op1._23 * op2.w,
+                  op1._30 * op2.x + op1._31 * op2.y + op1._32 * op2.z + op1._33 * op2.w
+  ));
+}
 
 
-	const matriz_4x4 matriz_4x4::traslacion(const vector3 &desplazamiento) {
-		return matriz_4x4::traslacion(desplazamiento.x, desplazamiento.y, desplazamiento.z);
-	}
-	const matriz_4x4 matriz_4x4::traslacion(real x, real y, real z) {
-		return matriz_4x4(	1.0f, 0.0f, 0.0f, x,
-							0.0f, 1.0f, 0.0f, y,
-							0.0f, 0.0f, 1.0f, z,
-							0.0f, 0.0f, 0.0f, 1.0f);
-	}
+/**********************************
+ * Funciones de la clase MATRIZ_3X3
+ **********************************/
+matriz_3x3::matriz_3x3(const matriz_4x4 &op1) : BaseMatrix(3, 3) {
+  this->_00 = op1._00; this->_01 = op1._01; this->_02 = op1._02;
+  this->_10 = op1._10; this->_11 = op1._11; this->_12 = op1._12;
+  this->_20 = op1._20; this->_21 = op1._21; this->_22 = op1._22;
+}
 
-	/**
-	 * x, y & z in radians
-	 */
-	const matriz_4x4 matriz_4x4::rotacion(real x, real y, real z) {
-		real cx = (real)cos(x), sx = (real)sin(x);
-		real cy = (real)cos(y), sy = (real)sin(y);
-		real cz = (real)cos(z), sz = (real)sin(z);
+matriz_3x3::matriz_3x3(vector column0, vector column1, vector column2) :
+  matriz_3x3( column0.x, column1.x, column2.x,
+              column0.y, column1.y, column2.y,
+              column0.z, column1.z, column2.z) {
+}
 
-		return matriz_4x4(
-			cy * cz, 	sx * sy * cz - cx * sz, 	cx * sy * cz + sx * sz, 	0.0f,
-			cy * sz, 	sx * sy * sz + cx * cz, 	cx * sy * sz - sx * cz, 	0.0f,
-			-sy, 		sx * cy, 					cx * cy, 					0.0f,
-			0.0f, 		0.0f, 						0.0f, 						1.0f);
+matriz_3x3::operator matriz_4x4 () const {
+  return(matriz_4x4(	_00, _01, _02, 0.0,
+            _10, _11, _12, 0.0,
+            _20, _21, _22, 0.0,
+            0.0, 0.0, 0.0, 1.0));
+}
 
-	}
+vector matriz_3x3::fila(unsigned int fila) const {
+  if (fila > 2)
+      throw std::out_of_range("Index Out of Bounds - matriz_3x3::fila(...)");
 
-	/**
-	 * x, y & z in radians
-	 */
-	const matriz_4x4 matriz_4x4::rotacion(const vector3 &angulos) {
-		return rotacion(angulos.x, angulos.y, angulos.z);
-	}
+  return vector(m[fila * 3], m[fila * 3 + 1], m[fila * 3 + 2]);
+}
 
-	/**
-	 * angulo in radians
-	 */
+vector matriz_3x3::columna(unsigned int columna) const {
+  if (columna > 2)
+      throw std::out_of_range("Index Out of Bounds - matriz_3x3::columna(...)");
 
-	const matriz_4x4 matriz_4x4::rotacion(real angulo, const vector3 &eje) {
-		return rotacion(angulo, eje.x, eje.y, eje.z);
-	}
+  return vector(m[0 * 3 + columna], m[1 * 3 + columna], m[2 * 3 + columna]);
+}
 
-	/**
-	 * angulo radians
-	 */
-	const matriz_4x4 matriz_4x4::rotacion(real angulo, real x, real y, real z) {
-		real c, s, umc, nxny1cos, nxnz1cos, nynz1cos;
-		c = (real)cos(angulo);
-		s = (real)sin(angulo);
-		umc = (real)(1.0 - c); // umc = Uno Menos Coseno
+//TODO: Move remaining factory methods to utilities?
+const matriz_3x3 matriz_3x3::matrizRotacion(const vector &eulerAngles) {
+    return matrizRotacion(eulerAngles.x, eulerAngles.y, eulerAngles.z);
+}
 
-		nxny1cos = x * y * umc;
-		nxnz1cos = x * z * umc;
-		nynz1cos = y * z * umc;
 
-		return matriz_4x4(
-			x * x * umc + c, 	nxny1cos - s * z, 	nxnz1cos + s * y,	0.0f,
-			nxny1cos + s * z, 	y * y * umc + c, 	nynz1cos - s * x,	0.0f,
-			nxnz1cos - s * y, 	nynz1cos + s * x, 	z * z * umc + c,	0.0f,
-			0.0f,				0.0f, 				0.0f,				1.0f);
+/**
+ * x, y, z (euler angles) en radianes
+ */
+const matriz_3x3 matriz_3x3::matrizRotacion(real x, real y, real z) {
+  real cx = (real)cos(x), sx = (real)sin(x);
+  real cy = (real)cos(y), sy = (real)sin(y);
+  real cz = (real)cos(z), sz = (real)sin(z);
 
-	}
-	const matriz_4x4 matriz_4x4::rotacion(const matriz_3x3 &orientacion) {
-		return matriz_4x4(	orientacion._00, 	orientacion._01, 	orientacion._02, 	0.0f,
-							orientacion._10, 	orientacion._11, 	orientacion._12, 	0.0f,
-							orientacion._20, 	orientacion._21, 	orientacion._22, 	0.0f,
-							0.0f, 				0.0f, 				0.0f, 				1.0f);
-	}
-	const matriz_4x4 matriz_4x4::rotacion(const cuaternion &rotacion) {
-		real y2 = rotacion.y * rotacion.y;
-		real x2 = rotacion.x * rotacion.x;
-		real z2 = rotacion.z * rotacion.z;
-		real xy = rotacion.x * rotacion.y;
-		real xz = rotacion.x * rotacion.z;
-		real wx = rotacion.x * rotacion.w;
-		real yz = rotacion.y * rotacion.z;
-		real wy = rotacion.y * rotacion.w;
-		real wz = rotacion.w * rotacion.z;
+  return matriz_3x3(
+    cy * cz,  sx * sy * cz - cx * sz,   cx * sy * cz + sx * sz,
+    cy * sz,  sx * sy * sz + cx * cz,   cx * sy * sz - sx * cz,
+    -sy,    sx * cy,          cx * cy);
+}
 
-		return(matriz_4x4(
-				1.0f - 2.0f * (y2 + z2),	2.0f * (xy - wz),			2.0f * (xz + wy),		 	0.0f,
-				2.0f * (xy + wz),			1.0f - 2.0f * (x2 + z2),	2.0f * (yz - wx),			0.0f,
-				2.0f * (xz - wy),			2.0f * (yz +  wx),          1.0f - 2.0f * (x2 + y2),	0.0f,
-				0.0f,				      	0.0f,				    	0.0f,			         	1.0f));
-	}
+/**
+ * angulo en radianes
+ */
+const matriz_3x3 matriz_3x3::matrizRotacion(real angulo, real x, real y, real z) {
+  real c, s, umc, nxny1cos, nxnz1cos, nynz1cos;
+  c = (real)cos(angulo);
+  s = (real)sin(angulo);
+  umc = (real)(1.0 - c); // umc = Uno Menos Coseno
 
-	const matriz_4x4 matriz_4x4::zoom(real x, real y, real z) {
-		return matriz_4x4(	x,		0.0f, 	0.0f, 	0.0f,
-							0.0f, 	y, 		0.0f, 	0.0f,
-							0.0f, 	0.0f, 	z, 		0.0f,
-							0.0f, 	0.0f, 	0.0f, 	1.0f);
-	}
+  nxny1cos = x * y * umc;
+  nxnz1cos = x * z * umc;
+  nynz1cos = y * z * umc;
 
-	const matriz_4x4 matriz_4x4::zoom(const vector3 &factor) {
-		return zoom(factor.x, factor.y, factor.z);
-	}
+  return matriz_3x3(  (x * x * umc + c),  nxny1cos - s * z,   nxnz1cos + s * y,
+            nxny1cos + s * z,   (y * y * umc) + c,  nynz1cos - s * x,
+            nxnz1cos - s * y,   nynz1cos + s * x,   z * z * umc + c);
+}
 
-	const matriz_4x4 matriz_4x4::base(const matriz_3x3 &orientacion, const vector3 &posicion) {
-		return matriz_4x4(	orientacion._00, 	orientacion._01, 	orientacion._02, 	posicion.x,
-							orientacion._10, 	orientacion._11, 	orientacion._12, 	posicion.y,
-							orientacion._20, 	orientacion._21, 	orientacion._22, 	posicion.z,
-							0.0f, 				0.0f, 				0.0f, 				1.0f);
-	}
+/**
+ * Asume que el eje está normalizado
+ */
+const matriz_3x3 matriz_3x3::matrizRotacion(real angulo, const vector3 &eje) {
+  return matrizRotacion(angulo, eje.x, eje.y, eje.z);
+}
+
+
+/**********************************
+ * Funciones de la clase MATRIZ_4x4
+ **********************************/
+const vector4 matriz_4x4::fila(unsigned int fila) const {
+  if (fila > this->nroFilas)
+    throw std::invalid_argument(("Index Out of Bounds - matriz_4x4::fila(" + std::to_string(fila) + ")").c_str());
+  return vector4(m[fila * 4 + 0], m[fila * 4 + 1], m[fila * 4 + 2], m[fila * 4 + 3]);
+}
+
+const vector4 matriz_4x4::columna(unsigned int columna) const {
+  if (columna > this->nroColumnas)
+    throw std::invalid_argument(("Index Out of Bounds - matriz_4x4::columna(" + std::to_string(columna) + ")").c_str());
+  return vector4(m[0 * 4 + columna], m[1 * 4 + columna], m[2 * 4 + columna], m[3 * 4 + columna]);
+}
+
+//TODO: Move remaining factory methods to helper classes?
+const matriz_4x4 matriz_4x4::traslacion(const vector3 &desplazamiento) {
+  return matriz_4x4::traslacion(desplazamiento.x, desplazamiento.y, desplazamiento.z);
+}
+const matriz_4x4 matriz_4x4::traslacion(real x, real y, real z) {
+  return matriz_4x4(	1.0f, 0.0f, 0.0f, x,
+            0.0f, 1.0f, 0.0f, y,
+            0.0f, 0.0f, 1.0f, z,
+            0.0f, 0.0f, 0.0f, 1.0f);
+}
+
+/**
+ * x, y & z in radians
+ */
+const matriz_4x4 matriz_4x4::rotacion(real x, real y, real z) {
+  real cx = (real)cos(x), sx = (real)sin(x);
+  real cy = (real)cos(y), sy = (real)sin(y);
+  real cz = (real)cos(z), sz = (real)sin(z);
+
+  return matriz_4x4(
+    cy * cz, 	sx * sy * cz - cx * sz, 	cx * sy * cz + sx * sz, 	0.0f,
+    cy * sz, 	sx * sy * sz + cx * cz, 	cx * sy * sz - sx * cz, 	0.0f,
+    -sy, 		sx * cy, 					cx * cy, 					0.0f,
+    0.0f, 		0.0f, 						0.0f, 						1.0f);
+
+}
+
+/**
+ * x, y & z in radians
+ */
+const matriz_4x4 matriz_4x4::rotacion(const vector3 &angulos) {
+  return rotacion(angulos.x, angulos.y, angulos.z);
+}
+
+/**
+ * angulo in radians
+ */
+
+const matriz_4x4 matriz_4x4::rotacion(real angulo, const vector3 &eje) {
+  return rotacion(angulo, eje.x, eje.y, eje.z);
+}
+
+/**
+ * angulo radians
+ */
+const matriz_4x4 matriz_4x4::rotacion(real angulo, real x, real y, real z) {
+  real c, s, umc, nxny1cos, nxnz1cos, nynz1cos;
+  c = (real)cos(angulo);
+  s = (real)sin(angulo);
+  umc = (real)(1.0 - c); // umc = Uno Menos Coseno
+
+  nxny1cos = x * y * umc;
+  nxnz1cos = x * z * umc;
+  nynz1cos = y * z * umc;
+
+  return matriz_4x4(
+    x * x * umc + c, 	nxny1cos - s * z, 	nxnz1cos + s * y,	0.0f,
+    nxny1cos + s * z, 	y * y * umc + c, 	nynz1cos - s * x,	0.0f,
+    nxnz1cos - s * y, 	nynz1cos + s * x, 	z * z * umc + c,	0.0f,
+    0.0f,				0.0f, 				0.0f,				1.0f);
+
+}
+const matriz_4x4 matriz_4x4::rotacion(const matriz_3x3 &orientacion) {
+  return matriz_4x4(	orientacion._00, 	orientacion._01, 	orientacion._02, 	0.0f,
+            orientacion._10, 	orientacion._11, 	orientacion._12, 	0.0f,
+            orientacion._20, 	orientacion._21, 	orientacion._22, 	0.0f,
+            0.0f, 				0.0f, 				0.0f, 				1.0f);
+}
+const matriz_4x4 matriz_4x4::rotacion(const cuaternion &rotacion) {
+  real y2 = rotacion.y * rotacion.y;
+  real x2 = rotacion.x * rotacion.x;
+  real z2 = rotacion.z * rotacion.z;
+  real xy = rotacion.x * rotacion.y;
+  real xz = rotacion.x * rotacion.z;
+  real wx = rotacion.x * rotacion.w;
+  real yz = rotacion.y * rotacion.z;
+  real wy = rotacion.y * rotacion.w;
+  real wz = rotacion.w * rotacion.z;
+
+  return(matriz_4x4(
+      1.0f - 2.0f * (y2 + z2),	2.0f * (xy - wz),			2.0f * (xz + wy),		 	0.0f,
+      2.0f * (xy + wz),			1.0f - 2.0f * (x2 + z2),	2.0f * (yz - wx),			0.0f,
+      2.0f * (xz - wy),			2.0f * (yz +  wx),          1.0f - 2.0f * (x2 + y2),	0.0f,
+      0.0f,				      	0.0f,				    	0.0f,			         	1.0f));
+}
+
+const matriz_4x4 matriz_4x4::zoom(real x, real y, real z) {
+  return matriz_4x4(	x,		0.0f, 	0.0f, 	0.0f,
+            0.0f, 	y, 		0.0f, 	0.0f,
+            0.0f, 	0.0f, 	z, 		0.0f,
+            0.0f, 	0.0f, 	0.0f, 	1.0f);
+}
+
+const matriz_4x4 matriz_4x4::zoom(const vector3 &factor) {
+  return zoom(factor.x, factor.y, factor.z);
+}
+
+const matriz_4x4 matriz_4x4::base(const matriz_3x3 &orientacion, const vector3 &posicion) {
+  return matriz_4x4(	orientacion._00, 	orientacion._01, 	orientacion._02, 	posicion.x,
+            orientacion._10, 	orientacion._11, 	orientacion._12, 	posicion.y,
+            orientacion._20, 	orientacion._21, 	orientacion._22, 	posicion.z,
+            0.0f, 				0.0f, 				0.0f, 				1.0f);
+}
 
 //	void matriz_4x4::Trasponer(void) { //Transpone la matriz
 //		matriz_4x4 tmp = *this;
@@ -335,17 +300,11 @@ const vector2 operator *(const matriz_2x2 &left, const vector2 &right) {
 //	const matriz_4x4 matriz_4x4::Inversa(void) const { //Devuelve la matriz que es la inversa de aquella sobre la cual se aplic� la operaci�n
 //		return(*this);
 //	}
-//	unsigned char matriz_4x4::Invertir(void) { // Invierte la matriz.
-//		return(true);
-//	}
-//
 
 
-//  / / - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-// | |  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// | |									Funciones de la Clase CUATERNION											     
-// | | - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-//  \ \  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+/**********************************
+ * Funciones de la clase CUATERNION
+ **********************************/
 
 //	cuaternion::cuaternion(real new_x, real new_y, real new_z) { // Construye una rotaci�n en �ngulos(radianes) de Euler
 //		this->HacerRotacion(new_x, new_y, new_z);
@@ -478,6 +437,9 @@ const vector2 operator *(const matriz_2x2 &left, const vector2 &right) {
 //	}
 
 
+/****************************
+ * Funciones de la MATRIZ_MxN
+ ****************************/
 
 matriz_mxn::matriz_mxn(unsigned int nroFilas, unsigned int nroColumnas) : BaseMatrix(nroFilas, nroColumnas)
 {

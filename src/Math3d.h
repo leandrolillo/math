@@ -257,11 +257,9 @@ public:
       BaseMatrix(3, 3) { // Constructor de Copia
     memcpy(this->m, op1.m, sizeof(this->m));
   }
-  matriz_3x3(void) :
-      BaseMatrix(3, 3) { // matriz Identidad
-    this->_00 = 1.0; this->_01 = 0.0; this->_02 = 0.0;
-    this->_10 = 0.0; this->_11 = 1.0; this->_12 = 0.0;
-    this->_20 = 0.0; this->_21 = 0.0; this->_22 = 1.0;
+  matriz_3x3(void) : matriz_3x3(1.0, 0.0, 0.0,
+                                0.0, 1.0, 0.0,
+                                0.0, 0.0, 1.0) {
   }
 
   matriz_3x3(vector column0, vector column1, vector column2);
