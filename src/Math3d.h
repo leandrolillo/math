@@ -126,8 +126,8 @@ public:
     this->_00 = _00; this->_01 = _01;
     this->_10 = _10; this->_11 = _11;
   }
-  matriz_2x2(const matriz_2x2 &op1) : BaseMatrix(2, 2) {
-    *this = op1;
+  matriz_2x2(const matriz_2x2 &right) : BaseMatrix(2, 2) {
+    *this = right;
   }
 
   real& operator()(unsigned int fila, unsigned int columna) override {
@@ -145,37 +145,37 @@ public:
 
     return m[fila * 2 + columna];
   }
-  const matriz_2x2 operator +(const matriz_2x2 &op1) const {
-    return(matriz_2x2(this->_00 + op1._00, this->_01 + op1._01,
-                      this->_10 + op1._10, this->_11 + op1._11));
+  const matriz_2x2 operator +(const matriz_2x2 &right) const {
+    return(matriz_2x2(this->_00 + right._00, this->_01 + right._01,
+                      this->_10 + right._10, this->_11 + right._11));
   }
-  const matriz_2x2 operator -(const matriz_2x2 &op1) const {
-    return(matriz_2x2(this->_00 - op1._00, this->_01 - op1._01,
-                      this->_10 - op1._10, this->_11 - op1._11));
+  const matriz_2x2 operator -(const matriz_2x2 &right) const {
+    return(matriz_2x2(this->_00 - right._00, this->_01 - right._01,
+                      this->_10 - right._10, this->_11 - right._11));
   }
-  const matriz_2x2 operator *(const matriz_2x2 &op1) const {
-    return(matriz_2x2(this->_00 * op1._00 + this->_01 * op1._10, this->_00 * op1._01 + this->_01 * op1._11,
-                      this->_10 * op1._00 + this->_11 * op1._10, this->_10 * op1._01 + this->_11 * op1._11));
+  const matriz_2x2 operator *(const matriz_2x2 &right) const {
+    return(matriz_2x2(this->_00 * right._00 + this->_01 * right._10, this->_00 * right._01 + this->_01 * right._11,
+                      this->_10 * right._00 + this->_11 * right._10, this->_10 * right._01 + this->_11 * right._11));
   }
-  const matriz_2x2 operator *(const real &op1) const {
-    return(matriz_2x2(this->_00 * op1, this->_01 * op1,
-                      this->_10 * op1, this->_11 * op1));
+  const matriz_2x2 operator *(const real &right) const {
+    return(matriz_2x2(this->_00 * right, this->_01 * right,
+                      this->_10 * right, this->_11 * right));
   }
 
-  void operator +=(const matriz_2x2 &op1) {
-    this->_00 += op1._00; this->_01 += op1._01;
-    this->_10 += op1._10; this->_11 += op1._11;
+  void operator +=(const matriz_2x2 &right) {
+    this->_00 += right._00; this->_01 += right._01;
+    this->_10 += right._10; this->_11 += right._11;
   }
-  void operator -=(const matriz_2x2 &op1) {
-    this->_00 -= op1._00; this->_01 -= op1._01;
-    this->_10 -= op1._10; this->_11 -= op1._11;
+  void operator -=(const matriz_2x2 &right) {
+    this->_00 -= right._00; this->_01 -= right._01;
+    this->_10 -= right._10; this->_11 -= right._11;
   }
-  void operator *=(const matriz_2x2 &op1) {
-    *this = *this * op1;
+  void operator *=(const matriz_2x2 &right) {
+    *this = *this * right;
   }
-  void operator *=(const real &op1) {
-    this->_00 *= op1; this->_01 *= op1;
-    this->_10 *= op1; this->_11 *= op1;
+  void operator *=(const real &right) {
+    this->_00 *= right; this->_01 *= right;
+    this->_10 *= right; this->_11 *= right;
   }
 
 	const matriz_2x2 transpuesta() const {
@@ -189,12 +189,12 @@ public:
 
 class matriz_3x3: public BaseMatrix {
   friend class matriz_4x4;
-  friend const vector3 operator*(const vector3 &op1, const matriz_3x3 &op2); //TODO: Do we need this?
-  friend const vector3 operator*(const matriz_3x3 &op1, const vector3 &op2);
-  friend const matriz_3x3 operator *(real op1, const matriz_3x3 &op2) {
-    return(matriz_3x3(  op2._00 * op1, op2._01 * op1, op2._02 * op1,
-              op2._10 * op1, op2._11 * op1, op2._12 * op1,
-              op2._20 * op1, op2._21 * op1, op2._22 * op1));
+  friend const vector3 operator*(const vector3 &left, const matriz_3x3 &right); //TODO: Do we need this?
+  friend const vector3 operator*(const matriz_3x3 &left, const vector3 &right);
+  friend const matriz_3x3 operator *(real left, const matriz_3x3 &right) {
+    return(matriz_3x3(  right._00 * left, right._01 * left, right._02 * left,
+                        right._10 * left, right._11 * left, right._12 * left,
+                        right._20 * left, right._21 * left, right._22 * left));
   }
 protected:
   union {
@@ -253,9 +253,9 @@ public:
     this->_20 = d20; this->_21 = d21; this->_22 = d22;
   }
 
-  matriz_3x3(const matriz_3x3 &op1) :
+  matriz_3x3(const matriz_3x3 &right) :
       BaseMatrix(3, 3) { // Constructor de Copia
-    memcpy(this->m, op1.m, sizeof(this->m));
+    memcpy(this->m, right.m, sizeof(this->m));
   }
   matriz_3x3(void) : matriz_3x3(1.0, 0.0, 0.0,
                                 0.0, 1.0, 0.0,
@@ -265,76 +265,76 @@ public:
   matriz_3x3(vector column0, vector column1, vector column2);
 
   /**
-   * Si no lo dejo, no funciona el operador (matriz_4x4)matriz_3x3. Da error de compilacion por ambiguedad en la línea que llama a la función.
+   * Can't implement here functions that use types not yet defined
    */
-  matriz_3x3(const matriz_4x4 &op1);
+  matriz_3x3(const matriz_4x4 &right);
 
-  matriz_3x3 operator=(const matriz_3x3 &op1) {
-    if (&op1 != this) {
-      memcpy(this->m, op1.m, sizeof(this->m));
+  matriz_3x3 operator=(const matriz_3x3 &right) {
+    if (&right != this) {
+      memcpy(this->m, right.m, sizeof(this->m));
     }
 
     return (*this);
   }
 
-  unsigned char operator==(const matriz_3x3 &op2) const {
-    return ((_00 == op2._00 && _01 == op2._01 && _02 == op2._02
-        && _10 == op2._10 && _11 == op2._11 && _12 == op2._12 && _20 == op2._20
-        && _21 == op2._21 && _22 == op2._22));
+  unsigned char operator==(const matriz_3x3 &right) const {
+    return ((_00 == right._00 && _01 == right._01 && _02 == right._02
+          && _10 == right._10 && _11 == right._11 && _12 == right._12
+          && _20 == right._20 && _21 == right._21 && _22 == right._22));
   }
 
-  unsigned char operator!=(const matriz_3x3 &op2) const {
-    return ((_00 != op2._00 || _01 != op2._01 || _02 != op2._02
-        || _10 != op2._10 || _11 != op2._11 || _12 != op2._12 || _20 != op2._20
-        || _21 != op2._21 || _22 != op2._22));
+  unsigned char operator!=(const matriz_3x3 &right) const {
+    return ((_00 != right._00 || _01 != right._01 || _02 != right._02
+        || _10 != right._10 || _11 != right._11 || _12 != right._12 || _20 != right._20
+        || _21 != right._21 || _22 != right._22));
   }
 
-  const matriz_3x3 operator*(const matriz_3x3 &op2) const {
+  const matriz_3x3 operator*(const matriz_3x3 &right) const {
     return (matriz_3x3(
-        (this->_00 * op2._00) + (this->_01 * op2._10) + (this->_02 * op2._20),
-        (this->_00 * op2._01) + (this->_01 * op2._11) + (this->_02 * op2._21),
-        (this->_00 * op2._02) + (this->_01 * op2._12) + (this->_02 * op2._22),
+        (this->_00 * right._00) + (this->_01 * right._10) + (this->_02 * right._20),
+        (this->_00 * right._01) + (this->_01 * right._11) + (this->_02 * right._21),
+        (this->_00 * right._02) + (this->_01 * right._12) + (this->_02 * right._22),
 
-        (this->_10 * op2._00) + (this->_11 * op2._10) + (this->_12 * op2._20),
-        (this->_10 * op2._01) + (this->_11 * op2._11) + (this->_12 * op2._21),
-        (this->_10 * op2._02) + (this->_11 * op2._12) + (this->_12 * op2._22),
+        (this->_10 * right._00) + (this->_11 * right._10) + (this->_12 * right._20),
+        (this->_10 * right._01) + (this->_11 * right._11) + (this->_12 * right._21),
+        (this->_10 * right._02) + (this->_11 * right._12) + (this->_12 * right._22),
 
-        (this->_20 * op2._00) + (this->_21 * op2._10) + (this->_22 * op2._20),
-        (this->_20 * op2._01) + (this->_21 * op2._11) + (this->_22 * op2._21),
-        (this->_20 * op2._02) + (this->_21 * op2._12) + (this->_22 * op2._22)));
+        (this->_20 * right._00) + (this->_21 * right._10) + (this->_22 * right._20),
+        (this->_20 * right._01) + (this->_21 * right._11) + (this->_22 * right._21),
+        (this->_20 * right._02) + (this->_21 * right._12) + (this->_22 * right._22)));
   }
 
-  const matriz_3x3 operator*(real op2) const {
-    return (matriz_3x3(_00 * op2, _01 * op2, _02 * op2, _10 * op2, _11 * op2,
-        _12 * op2, _20 * op2, _21 * op2, _22 * op2));
+  const matriz_3x3 operator*(real right) const {
+    return (matriz_3x3(_00 * right, _01 * right, _02 * right, _10 * right, _11 * right,
+        _12 * right, _20 * right, _21 * right, _22 * right));
   }
 
-  const matriz_3x3 operator+(const matriz_3x3 &op2) const {
-    return (matriz_3x3(_00 + op2._00, _01 + op2._01, _02 + op2._02,
-        _10 + op2._10, _11 + op2._11, _12 + op2._12, _20 + op2._20,
-        _21 + op2._21, _22 + op2._22));
+  const matriz_3x3 operator+(const matriz_3x3 &right) const {
+    return (matriz_3x3(_00 + right._00, _01 + right._01, _02 + right._02,
+        _10 + right._10, _11 + right._11, _12 + right._12, _20 + right._20,
+        _21 + right._21, _22 + right._22));
   }
 
-  const matriz_3x3 operator-(const matriz_3x3 &op2) const {
-    return (matriz_3x3(_00 - op2._00, _01 - op2._01, _02 - op2._02,
-        _10 - op2._10, _11 - op2._11, _12 - op2._12, _20 - op2._20,
-        _21 - op2._21, _22 - op2._22));
+  const matriz_3x3 operator-(const matriz_3x3 &right) const {
+    return (matriz_3x3(_00 - right._00, _01 - right._01, _02 - right._02,
+        _10 - right._10, _11 - right._11, _12 - right._12, _20 - right._20,
+        _21 - right._21, _22 - right._22));
   }
 
-  void operator*=(const matriz_3x3 &op2) {
-    *this = *this * op2;
+  void operator*=(const matriz_3x3 &right) {
+    *this = *this * right;
   }
 
-  void operator*=(real op2) {
-    *this = *this * op2;
+  void operator*=(real right) {
+    *this = *this * right;
   }
 
-  void operator+=(const matriz_3x3 &op2) {
-    *this = *this + op2;
+  void operator+=(const matriz_3x3 &right) {
+    *this = *this + right;
   }
 
-  void operator-=(const matriz_3x3 &op2) {
-    *this = *this - op2;
+  void operator-=(const matriz_3x3 &right) {
+    *this = *this - right;
   }
 
   operator real *() const {
@@ -385,17 +385,17 @@ public:
 //		const matriz_3x3 transpuesta(void) const;
 //		unsigned char esSingular(void);
 //
-//		void star(const vector3 &op1);
+//		void star(const vector3 &right);
 };
 
 class matriz_4x4: public BaseMatrix {
   friend const vector3 operator*(const matriz_4x4 &left, const vector3 &right);
   friend const vector4 operator*(const matriz_4x4 &left, const vector4 &right);
-  friend const matriz_4x4 operator *(real op1, const matriz_4x4 &op2) {
-    return (matriz_4x4( op1 * op2._00, op1 * op2._01, op1 * op2._02, op1 * op2._03,
-                        op1 * op2._10, op1 * op2._11, op1 * op2._12, op1 * op2._13,
-                        op1 * op2._20, op1 * op2._21, op1 * op2._22, op1 * op2._23,
-                        op1 * op2._30, op1 * op2._31, op1 * op2._32, op1 * op2._33));
+  friend const matriz_4x4 operator *(real left, const matriz_4x4 &right) {
+    return (matriz_4x4( left * right._00, left * right._01, left * right._02, left * right._03,
+                        left * right._10, left * right._11, left * right._12, left * right._13,
+                        left * right._20, left * right._21, left * right._22, left * right._23,
+                        left * right._30, left * right._31, left * right._32, left * right._33));
   }
 
   friend class matriz_3x3;
@@ -448,9 +448,9 @@ public:
     this->_30 = _30; this->_31 = _31; this->_32 = _32; this->_33 = _33;
   }
 
-  matriz_4x4(const matriz_4x4 &op1) :
+  matriz_4x4(const matriz_4x4 &right) :
       BaseMatrix(4, 4) { //Constructor de copia
-    memcpy(this->m, op1.m, sizeof(this->m));
+    memcpy(this->m, right.m, sizeof(this->m));
   }
 
   real& operator()(unsigned int fila, unsigned int columna) override {
@@ -470,94 +470,94 @@ public:
   const vector4 fila(unsigned int fila) const;
   const vector4 columna(unsigned int columna) const;
 
-  matriz_4x4 operator=(const matriz_4x4 &op1) {
-    if (&op1 != this) {
-      memcpy(this->m, op1.m, sizeof(this->m));
+  matriz_4x4 operator=(const matriz_4x4 &right) {
+    if (&right != this) {
+      memcpy(this->m, right.m, sizeof(this->m));
     }
 
     return (*this);
   }
 
-  const matriz_4x4 operator*(const matriz_4x4 &op2) const {
+  const matriz_4x4 operator*(const matriz_4x4 &right) const {
     return (matriz_4x4(
-        (this->_00 * op2._00) + (this->_01 * op2._10) + (this->_02 * op2._20) + (this->_03 * op2._30),
-        (this->_00 * op2._01) + (this->_01 * op2._11) + (this->_02 * op2._21) + (this->_03 * op2._31),
-        (this->_00 * op2._02) + (this->_01 * op2._12) + (this->_02 * op2._22) + (this->_03 * op2._32),
-        (this->_00 * op2._03) + (this->_01 * op2._13) + (this->_02 * op2._23) + (this->_03 * op2._33),
+        (this->_00 * right._00) + (this->_01 * right._10) + (this->_02 * right._20) + (this->_03 * right._30),
+        (this->_00 * right._01) + (this->_01 * right._11) + (this->_02 * right._21) + (this->_03 * right._31),
+        (this->_00 * right._02) + (this->_01 * right._12) + (this->_02 * right._22) + (this->_03 * right._32),
+        (this->_00 * right._03) + (this->_01 * right._13) + (this->_02 * right._23) + (this->_03 * right._33),
 
-        (this->_10 * op2._00) + (this->_11 * op2._10) + (this->_12 * op2._20) + (this->_13 * op2._30),
-        (this->_10 * op2._01) + (this->_11 * op2._11) + (this->_12 * op2._21) + (this->_13 * op2._31),
-        (this->_10 * op2._02) + (this->_11 * op2._12) + (this->_12 * op2._22) + (this->_13 * op2._32),
-        (this->_10 * op2._03) + (this->_11 * op2._13) + (this->_12 * op2._23) + (this->_13 * op2._33),
+        (this->_10 * right._00) + (this->_11 * right._10) + (this->_12 * right._20) + (this->_13 * right._30),
+        (this->_10 * right._01) + (this->_11 * right._11) + (this->_12 * right._21) + (this->_13 * right._31),
+        (this->_10 * right._02) + (this->_11 * right._12) + (this->_12 * right._22) + (this->_13 * right._32),
+        (this->_10 * right._03) + (this->_11 * right._13) + (this->_12 * right._23) + (this->_13 * right._33),
 
-        (this->_20 * op2._00) + (this->_21 * op2._10) + (this->_22 * op2._20) + (this->_23 * op2._30),
-        (this->_20 * op2._01) + (this->_21 * op2._11) + (this->_22 * op2._21) + (this->_23 * op2._31),
-        (this->_20 * op2._02) + (this->_21 * op2._12) + (this->_22 * op2._22) + (this->_23 * op2._32),
-        (this->_20 * op2._03) + (this->_21 * op2._13) + (this->_22 * op2._23) + (this->_23 * op2._33),
+        (this->_20 * right._00) + (this->_21 * right._10) + (this->_22 * right._20) + (this->_23 * right._30),
+        (this->_20 * right._01) + (this->_21 * right._11) + (this->_22 * right._21) + (this->_23 * right._31),
+        (this->_20 * right._02) + (this->_21 * right._12) + (this->_22 * right._22) + (this->_23 * right._32),
+        (this->_20 * right._03) + (this->_21 * right._13) + (this->_22 * right._23) + (this->_23 * right._33),
 
-        (this->_30 * op2._00) + (this->_31 * op2._10) + (this->_32 * op2._20) + (this->_33 * op2._30),
-        (this->_30 * op2._01) + (this->_31 * op2._11) + (this->_32 * op2._21) + (this->_33 * op2._31),
-        (this->_30 * op2._02) + (this->_31 * op2._12) + (this->_32 * op2._22) + (this->_33 * op2._32),
-        (this->_30 * op2._03) + (this->_31 * op2._13) + (this->_32 * op2._23) + (this->_33 * op2._33)));
-  }
-
-  const matriz_4x4 operator *(real op2) const {
-    return (matriz_4x4(_00 * op2, _01 * op2, _02 * op2, _03 * op2, _10 * op2,
-        _11 * op2, _12 * op2, _13 * op2, _20 * op2, _21 * op2, _22 * op2,
-        _23 * op2, _30 * op2, _31 * op2, _32 * op2, _33 * op2));
+        (this->_30 * right._00) + (this->_31 * right._10) + (this->_32 * right._20) + (this->_33 * right._30),
+        (this->_30 * right._01) + (this->_31 * right._11) + (this->_32 * right._21) + (this->_33 * right._31),
+        (this->_30 * right._02) + (this->_31 * right._12) + (this->_32 * right._22) + (this->_33 * right._32),
+        (this->_30 * right._03) + (this->_31 * right._13) + (this->_32 * right._23) + (this->_33 * right._33)));
   }
 
-  const matriz_4x4 operator +(const matriz_4x4 &op2) const {
-    return (matriz_4x4( _00 + op2._00, _01 + op2._01, _02 + op2._02, _03 + op2._03,
-                        _10 + op2._10, _11 + op2._11, _12 + op2._12, _13 + op2._13,
-                        _20 + op2._20, _21 + op2._21, _22 + op2._22, _23 + op2._23,
-                        _30 + op2._30, _31 + op2._31, _32 + op2._32, _33 + op2._33));
+  const matriz_4x4 operator *(real right) const {
+    return (matriz_4x4(_00 * right, _01 * right, _02 * right, _03 * right, _10 * right,
+        _11 * right, _12 * right, _13 * right, _20 * right, _21 * right, _22 * right,
+        _23 * right, _30 * right, _31 * right, _32 * right, _33 * right));
   }
-  const matriz_4x4 operator -(const matriz_4x4 &op2) const {
-    return (matriz_4x4( _00 - op2._00, _01 - op2._01, _02 - op2._02, _03 - op2._03,
-                        _10 - op2._10, _11 - op2._11, _12 - op2._12, _13 - op2._13,
-                        _20 - op2._20, _21 - op2._21, _22 - op2._22, _23 - op2._23,
-                        _30 - op2._30, _31 - op2._31, _32 - op2._32, _33 - op2._33));
+
+  const matriz_4x4 operator +(const matriz_4x4 &right) const {
+    return (matriz_4x4( _00 + right._00, _01 + right._01, _02 + right._02, _03 + right._03,
+                        _10 + right._10, _11 + right._11, _12 + right._12, _13 + right._13,
+                        _20 + right._20, _21 + right._21, _22 + right._22, _23 + right._23,
+                        _30 + right._30, _31 + right._31, _32 + right._32, _33 + right._33));
   }
-  void operator*=(const matriz_4x4 &op2) {
-    *this = *this * op2;
+  const matriz_4x4 operator -(const matriz_4x4 &right) const {
+    return (matriz_4x4( _00 - right._00, _01 - right._01, _02 - right._02, _03 - right._03,
+                        _10 - right._10, _11 - right._11, _12 - right._12, _13 - right._13,
+                        _20 - right._20, _21 - right._21, _22 - right._22, _23 - right._23,
+                        _30 - right._30, _31 - right._31, _32 - right._32, _33 - right._33));
   }
-  void operator *=(real op2) {
-    *this = *this * op2;
+  void operator*=(const matriz_4x4 &right) {
+    *this = *this * right;
   }
-  void operator +=(const matriz_4x4 &op2) {
-    *this = *this + op2;
+  void operator *=(real right) {
+    *this = *this * right;
   }
-  void operator -=(const matriz_4x4 &op2) {
-    *this = *this - op2;
+  void operator +=(const matriz_4x4 &right) {
+    *this = *this + right;
   }
-  matriz_4x4 operator =(const matriz_3x3 &op2) {
-    this->_00 = op2._00;
-    this->_01 = op2._01;
-    this->_02 = op2._02;
-    this->_10 = op2._10;
-    this->_11 = op2._11;
-    this->_12 = op2._12;
-    this->_20 = op2._20;
-    this->_21 = op2._21;
-    this->_22 = op2._22;
+  void operator -=(const matriz_4x4 &right) {
+    *this = *this - right;
+  }
+  matriz_4x4 operator =(const matriz_3x3 &right) {
+    this->_00 = right._00;
+    this->_01 = right._01;
+    this->_02 = right._02;
+    this->_10 = right._10;
+    this->_11 = right._11;
+    this->_12 = right._12;
+    this->_20 = right._20;
+    this->_21 = right._21;
+    this->_22 = right._22;
 
     return (*this);
   }
 
-//		unsigned char operator==(const matriz_4x4 &op2) const {
+//		unsigned char operator==(const matriz_4x4 &right) const {
 //		  return
-//		      this->_00 == op2._00 && this->_01 == op2._01 && this->_02 == op2._02 && this->_03 == op2._03 &&
-//		      this->_10 == op2._10 && this->_11 == op2._11 && this->_12 == op2._02 && this->_13 == op2._13 &&
-//		      this->_20 == op2._20 && this->_21 == op2._21 && this->_22 == op2._02 && this->_23 == op2._23 &&
-//		      this->_30 == op2._30 && this->_31 == op2._31 && this->_32 == op2._02 && this->_33 == op2._33;
+//		      this->_00 == right._00 && this->_01 == right._01 && this->_02 == right._02 && this->_03 == right._03 &&
+//		      this->_10 == right._10 && this->_11 == right._11 && this->_12 == right._02 && this->_13 == right._13 &&
+//		      this->_20 == right._20 && this->_21 == right._21 && this->_22 == right._02 && this->_23 == right._23 &&
+//		      this->_30 == right._30 && this->_31 == right._31 && this->_32 == right._02 && this->_33 == right._33;
 //		}
 
   operator real *() const {
     return ((real*) m);
   }
 
-  operator matriz_3x3() const {	//Funciona solamente si dejo un constructor matriz_3x3(matriz_4x4 op1) en la clase matriz_3x3
+  operator matriz_3x3() const {	//Funciona solamente si dejo un constructor matriz_3x3(matriz_4x4 right) en la clase matriz_3x3
     return (matriz_3x3(_00, _01, _02, _10, _11, _12, _20, _21, _22));
   }
 
@@ -647,13 +647,13 @@ public:
             + std::to_string(fila) + "," + std::to_string(columna) + ")");
   }
 
-//		unsigned char operator==(const matriz_mxn &op1) const {
-//		  if(this->getNroColumnas() != op1.getNroColumnas() || this->getNroFilas() != op1.getNroFilas()) {
+//		unsigned char operator==(const matriz_mxn &right) const {
+//		  if(this->getNroColumnas() != right.getNroColumnas() || this->getNroFilas() != right.getNroFilas()) {
 //		    return false;
 //		  }
 //      for(unsigned short i = 0; i < this->getNroFilas(); i++) {
 //        for(unsigned short j = 0; j < this->getNroColumnas(); j++) {
-//          if(this->operator ()(i, j) != op1(i, j)) {
+//          if(this->operator ()(i, j) != right(i, j)) {
 //            return false;
 //          }
 //        }
@@ -663,15 +663,15 @@ public:
 
   matriz_mxn();
   matriz_mxn(unsigned int nroFilas, unsigned int nroColumnas);
-  matriz_mxn(const matriz_mxn &op2); //Constructor de copia (se necesitan cuando se maneja memoria dinamicamente reservada)
+  matriz_mxn(const matriz_mxn &right); //Constructor de copia (se necesitan cuando se maneja memoria dinamicamente reservada)
   virtual ~matriz_mxn();
 
   //operator const real() const;
-  const matriz_mxn& operator =(const matriz_mxn &op1);
-  const matriz_mxn operator +(const matriz_mxn &op1) const;
-  const matriz_mxn operator -(const matriz_mxn &op1) const;
-  const matriz_mxn operator *(real op1) const;
-  const matriz_mxn operator *(const matriz_mxn &op1) const;
+  const matriz_mxn& operator =(const matriz_mxn &right);
+  const matriz_mxn operator +(const matriz_mxn &right) const;
+  const matriz_mxn operator -(const matriz_mxn &right) const;
+  const matriz_mxn operator *(real right) const;
+  const matriz_mxn operator *(const matriz_mxn &right) const;
 
 //			void trasponer();
 //			const matriz_mxn traspuesta() const;
@@ -694,8 +694,8 @@ public:
   };
 
 public:
-  friend const vector2 operator*(real op1, const vector2 &op2) {
-    return (vector2(op1 * op2.x, op1 * op2.y));
+  friend const vector2 operator*(real left, const vector2 &right) {
+    return (vector2(left * right.x, left * right.y));
   }
 
 public:
@@ -706,37 +706,37 @@ public:
     this->x = x;
     this->y = y;
   }
-  //vector2(const vector2 &op1);
+  //vector2(const vector2 &right);
 
-  const vector2 operator +(const vector2 &op1) const {
-    return(vector2(this->x + op1.x, this->y + op1.y));
+  const vector2 operator +(const vector2 &right) const {
+    return(vector2(this->x + right.x, this->y + right.y));
   }
-  const vector2 operator -(const vector2 &op1) const {
-    return(vector2(this->x - op1.x, this->y - op1.y));
+  const vector2 operator -(const vector2 &right) const {
+    return(vector2(this->x - right.x, this->y - right.y));
   }
   const vector2 operator-(void) const {
     return(vector2(-this->x, -this->y));
   }
-  const vector2 operator *(const real &op1) const {
-    return(vector2(this->x * op1, this->y * op1));
+  const vector2 operator *(const real &right) const {
+    return(vector2(this->x * right, this->y * right));
   }
 
-  real operator *(const vector2 &op1) const {
-    return(this->productoEscalar(op1));
+  real operator *(const vector2 &right) const {
+    return(this->productoEscalar(right));
   }
-  real operator ^(const vector2 &op1) const;
+  real operator ^(const vector2 &right) const;
 
-  void operator +=(const vector2 &op1) {
-    this->x += op1.x;
-    this->y += op1.y;
+  void operator +=(const vector2 &right) {
+    this->x += right.x;
+    this->y += right.y;
   }
-  void operator -=(const vector2 &op1) {
-    this->x -= op1.x;
-    this->y -= op1.y;
+  void operator -=(const vector2 &right) {
+    this->x -= right.x;
+    this->y -= right.y;
   }
-  void operator *=(const real &op1) {
-    this->x *= op1;
-    this->y *= op1;
+  void operator *=(const real &right) {
+    this->x *= right;
+    this->y *= right;
   }
 
   real modulo() const {
@@ -781,8 +781,8 @@ public:
 //		void perpendicularizar();
 //		const vector2 perpendicularizado() const;
 //
-//		real perpDotProduct(const vector2 &op1) const;
-//		real productoEscalar(const vector2 &op1) const;
+//		real perpDotProduct(const vector2 &right) const;
+//		real productoEscalar(const vector2 &right) const;
 
   operator real *() const {
     return((real *)this->m);
@@ -799,19 +799,19 @@ public:
   }
 
 private:
-  real productoEscalar(const vector2 &op1) const {
-    return (this->x * op1.x + this->y * op1.y);
+  real productoEscalar(const vector2 &right) const {
+    return (this->x * right.x + this->y * right.y);
   }
 
 };
 
 class vector3 {
-  friend const vector3 operator*(real op1, const vector3 &op2) {
-    return (vector3(op1 * op2.x, op1 * op2.y, op1 * op2.z));
+  friend const vector3 operator*(real left, const vector3 &right) {
+    return (vector3(left * right.x, left * right.y, left * right.z));
   }
 
-  friend const vector3 operator*(const vector3 &op1, const matriz_3x3 &op2);
-  friend const vector3 operator*(const matriz_3x3 &op1, const vector3 &op2);
+  friend const vector3 operator*(const vector3 &left, const matriz_3x3 &right);
+  friend const vector3 operator*(const matriz_3x3 &left, const vector3 &right);
 
 public:
   union {
@@ -830,57 +830,57 @@ public:
     this->z = c_z;
   }
 
-  vector3(const vector3 &op1) {  //constructor de copia
-    memcpy(this->m, op1.m, sizeof(this->m));
+  vector3(const vector3 &right) {  //constructor de copia
+    memcpy(this->m, right.m, sizeof(this->m));
   }
 
-  unsigned char operator==(const vector3 &op2) const {
-    return ((x == op2.x && y == op2.y && z == op2.z));
+  unsigned char operator==(const vector3 &right) const {
+    return ((x == right.x && y == right.y && z == right.z));
   }
 
-  unsigned char operator!=(const vector3 &op2) const {
-    return ((x != op2.x || y != op2.y || z != op2.z));
+  unsigned char operator!=(const vector3 &right) const {
+    return ((x != right.x || y != right.y || z != right.z));
   }
 
-  const vector3 operator+(const vector3 &op2) const {
-    return (vector3(this->x + op2.x, this->y + op2.y, this->z + op2.z));
+  const vector3 operator+(const vector3 &right) const {
+    return (vector3(this->x + right.x, this->y + right.y, this->z + right.z));
   }
 
-  const vector3 operator-(const vector3 &op2) const {
-    return (vector3(this->x - op2.x, this->y - op2.y, this->z - op2.z));
+  const vector3 operator-(const vector3 &right) const {
+    return (vector3(this->x - right.x, this->y - right.y, this->z - right.z));
   }
   const vector3 operator-(void) const {
     return (vector3(-this->x, -this->y, -this->z));
   }
 
-  const vector3 operator*(real op2) const {
-    return (vector3(this->x * op2, this->y * op2, this->z * op2));
+  const vector3 operator*(real right) const {
+    return (vector3(this->x * right, this->y * right, this->z * right));
   }
 
-  void operator +=(const vector3 &op2) {
-    this->x += op2.x;
-    this->y += op2.y;
-    this->z += op2.z;
+  void operator +=(const vector3 &right) {
+    this->x += right.x;
+    this->y += right.y;
+    this->z += right.z;
   }
 
-  void operator -=(const vector3 &op2) {
-    this->x -= op2.x;
-    this->y -= op2.y;
-    this->z -= op2.z;
+  void operator -=(const vector3 &right) {
+    this->x -= right.x;
+    this->y -= right.y;
+    this->z -= right.z;
   }
 
-  void operator*=(real op2) {
-    this->x *= op2;
-    this->y *= op2;
-    this->z *= op2;
+  void operator*=(real right) {
+    this->x *= right;
+    this->y *= right;
+    this->z *= right;
   }
 
-  real operator*(const vector3 &op2) const { // Producto Escalar de vector3es
-    return (this->productoEscalar(op2));
+  real operator*(const vector3 &right) const { // Producto Escalar de vector3es
+    return (this->productoEscalar(right));
   }
 
-  const vector3 operator^(const vector3 &op2) const { // Producto Vectorial
-    return (productoVectorial(op2));
+  const vector3 operator^(const vector3 &right) const { // Producto Vectorial
+    return (productoVectorial(right));
   }
 
   real modulo(void) const { // Devuelve el modulo del vector3
@@ -936,20 +936,20 @@ public:
     return String(temp);
   }
 private:
-  real productoEscalar(const vector3 &op2) const {
-    return ((this->x * op2.x) + (this->y * op2.y) + (this->z * op2.z));
+  real productoEscalar(const vector3 &right) const {
+    return ((this->x * right.x) + (this->y * right.y) + (this->z * right.z));
   }
 
-  vector3 productoVectorial(const vector3 &op2) const {
-    return (vector3((this->z * op2.y - this->y * op2.z),
-        (this->x * op2.z - this->z * op2.x),
-        (this->y * op2.x - this->x * op2.y)));
+  vector3 productoVectorial(const vector3 &right) const {
+    return (vector3((this->z * right.y - this->y * right.z),
+        (this->x * right.z - this->z * right.x),
+        (this->y * right.x - this->x * right.y)));
   }
 };
 
 class cuaternion {
-  friend const vector3 operator*(real op1, const vector4 &op2) {
-    return (vector4(op1 * op2.x, op1 * op2.y, op1 * op2.z, op1 * op2.w));
+  friend const vector3 operator*(real left, const vector4 &right) {
+    return (vector4(left * right.x, left * right.y, left * right.z, left * right.w));
   }
 
 public:
@@ -974,46 +974,46 @@ public:
     this->z = new_z;
     this->w = new_w;
   }
-  cuaternion(const vector3 &op1) { // copia los atributos x, y y z a los del cuaternion, dejando w = 0
-    this->x = op1.x;
-    this->y = op1.y;
-    this->z = op1.z;
+  cuaternion(const vector3 &right) { // copia los atributos x, y y z a los del cuaternion, dejando w = 0
+    this->x = right.x;
+    this->y = right.y;
+    this->z = right.z;
     this->w = 0.0;
   }
 
-  cuaternion(const cuaternion &op1) {
-    memcpy(this->m, op1.m, sizeof(this->m));
+  cuaternion(const cuaternion &right) {
+    memcpy(this->m, right.m, sizeof(this->m));
   }
-  const cuaternion operator+(const cuaternion &op2) const {
-    return (cuaternion(this->x + op2.x, this->y + op2.y, this->z + op2.z,
-        this->w + op2.w));
+  const cuaternion operator+(const cuaternion &right) const {
+    return (cuaternion(this->x + right.x, this->y + right.y, this->z + right.z,
+        this->w + right.w));
   }
 
-  const cuaternion operator-(const cuaternion &op2) const {
-    return (cuaternion(this->x - op2.x, this->y - op2.y, this->z - op2.z,
-        this->w - op2.w));
+  const cuaternion operator-(const cuaternion &right) const {
+    return (cuaternion(this->x - right.x, this->y - right.y, this->z - right.z,
+        this->w - right.w));
   }
   const cuaternion operator-(void) const {
     return (cuaternion(-this->x, -this->y, -this->z, -this->w));
   }
 
-  const cuaternion operator*(const real op2) const {
-    return (cuaternion(this->x * op2, this->y * op2, this->z * op2,
-        this->w * op2));
+  const cuaternion operator*(const real right) const {
+    return (cuaternion(this->x * right, this->y * right, this->z * right,
+        this->w * right));
   }
-  void operator *=(const real op2) {
-    this->x *= op2;
-    this->y *= op2;
-    this->z *= op2;
-    this->w *= op2;
+  void operator *=(const real right) {
+    this->x *= right;
+    this->y *= right;
+    this->z *= right;
+    this->w *= right;
   }
 
-  const cuaternion operator*(const cuaternion &op2) const {
+  const cuaternion operator*(const cuaternion &right) const {
     return (cuaternion(
-        this->w * op2.x + this->x * op2.w + this->y * op2.z - this->z * op2.y,
-        this->w * op2.y + this->y * op2.w + this->z * op2.x - this->x * op2.z,
-        this->w * op2.z + this->z * op2.w + this->x * op2.y - this->y * op2.x,
-        this->w * op2.w - this->x * op2.x - this->y * op2.y - this->z * op2.z));
+        this->w * right.x + this->x * right.w + this->y * right.z - this->z * right.y,
+        this->w * right.y + this->y * right.w + this->z * right.x - this->x * right.z,
+        this->w * right.z + this->z * right.w + this->x * right.y - this->y * right.x,
+        this->w * right.w - this->x * right.x - this->y * right.y - this->z * right.z));
   }
 
   operator real *() const {
@@ -1186,10 +1186,10 @@ public:
 //				if(!vectorFila)
 //					this->hacerVectorColumna();
   }
-  vectorN(const matriz_mxn &op1) :
-      matriz_mxn(op1) {
+  vectorN(const matriz_mxn &right) :
+      matriz_mxn(right) {
   }
-//			vectorN(const vectorN &op1) : matriz_mxn((matriz_mxn &)op1), BaseVector(op1.getLength())
+//			vectorN(const vectorN &right) : matriz_mxn((matriz_mxn &)right), BaseVector(right.getLength())
 //			{
 //			}
 
@@ -1200,22 +1200,22 @@ public:
     return ((BaseMatrix*) this)->operator ()(index, 1);
   }
 
-  const vectorN& operator =(const vectorN &op1) {
-    if (((const matriz_mxn&) op1).getNroColumnas() == 1
-        || ((const matriz_mxn&) op1).getNroFilas() == 1) {
-      this->matriz_mxn::operator=(op1);
+  const vectorN& operator =(const vectorN &right) {
+    if (((const matriz_mxn&) right).getNroColumnas() == 1
+        || ((const matriz_mxn&) right).getNroFilas() == 1) {
+      this->matriz_mxn::operator=(right);
       return *this;
     } else
       throw std::invalid_argument(
           "Not a vector - one of the dimensions must be 1 (trying to assign a matrix to a vector");
   }
 
-  real punto(vectorN &operador) {
-    if (this->getLength() == operador.getLength()) {
+  real punto(vectorN &right) {
+    if (this->getLength() == right.getLength()) {
       real resultado = 0;
 
       for (unsigned int index = 1; index <= this->getLength(); index++)
-        resultado += vectorN::operator ()(index) * operador(index);
+        resultado += vectorN::operator ()(index) * right(index);
 
       return resultado;
     } else

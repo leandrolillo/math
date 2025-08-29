@@ -37,36 +37,36 @@ const vector2 operator *(const matriz_2x2 &left, const vector2 &right) {
 /*****************************************************
  * Funciones FRIEND de las clases  MATRIZ_3X3 y VECTOR
  *****************************************************/
-const vector3 operator*(const vector3 &op1, const matriz_3x3 &op2) {
-  return(vector3( (op1.x * op2._00) + (op1.y * op2._10) + (op1.z * op2._20),
-          (op1.x * op2._01) + (op1.y * op2._11) + (op1.z * op2._21),
-          (op1.x * op2._02) + (op1.y * op2._12) + (op1.z * op2._22)));
+const vector3 operator*(const vector3 &left, const matriz_3x3 &right) {
+  return(vector3( (left.x * right._00) + (left.y * right._10) + (left.z * right._20),
+          (left.x * right._01) + (left.y * right._11) + (left.z * right._21),
+          (left.x * right._02) + (left.y * right._12) + (left.z * right._22)));
 }
 
-const vector3 operator*(const matriz_3x3 &op1, const vector3 &op2) {
-  return(vector3( (op1._00 * op2.x) + (op1._01 * op2.y) + (op1._02 * op2.z),
-          (op1._10 * op2.x)  + (op1._11 * op2.y)  + (op1._12 * op2.z),
-          (op1._20 * op2.x)  + (op1._21 * op2.y) + (op1._22 * op2.z)));
+const vector3 operator*(const matriz_3x3 &left, const vector3 &right) {
+  return(vector3( (left._00 * right.x) + (left._01 * right.y) + (left._02 * right.z),
+          (left._10 * right.x)  + (left._11 * right.y)  + (left._12 * right.z),
+          (left._20 * right.x)  + (left._21 * right.y) + (left._22 * right.z)));
 }
 
 /*****************************************************
  * Funciones FRIEND de las clases  MATRIZ_4X4 y VECTOR
  *****************************************************/
 /**
- * Multiplies op1 * op2<x, y, z, 1>
+ * Multiplies left * right<x, y, z, 1>
  */
-const vector3 operator*(const matriz_4x4 &op1, const vector3 &op2) {
-  return(vector3( op1._00 * op2.x + op1._01 * op2.y + op1._02 * op2.z + op1._03,
-                  op1._10 * op2.x + op1._11 * op2.y + op1._12 * op2.z + op1._13,
-                  op1._20 * op2.x + op1._21 * op2.y + op1._22 * op2.z + op1._23
+const vector3 operator*(const matriz_4x4 &left, const vector3 &right) {
+  return(vector3( left._00 * right.x + left._01 * right.y + left._02 * right.z + left._03,
+                  left._10 * right.x + left._11 * right.y + left._12 * right.z + left._13,
+                  left._20 * right.x + left._21 * right.y + left._22 * right.z + left._23
   ));
 }
 
-const vector4 operator*(const matriz_4x4 &op1, const vector4 &op2) {
-  return(vector4( op1._00 * op2.x + op1._01 * op2.y + op1._02 * op2.z + op1._03 * op2.w,
-                  op1._10 * op2.x + op1._11 * op2.y + op1._12 * op2.z + op1._13 * op2.w,
-                  op1._20 * op2.x + op1._21 * op2.y + op1._22 * op2.z + op1._23 * op2.w,
-                  op1._30 * op2.x + op1._31 * op2.y + op1._32 * op2.z + op1._33 * op2.w
+const vector4 operator*(const matriz_4x4 &left, const vector4 &right) {
+  return(vector4( left._00 * right.x + left._01 * right.y + left._02 * right.z + left._03 * right.w,
+                  left._10 * right.x + left._11 * right.y + left._12 * right.z + left._13 * right.w,
+                  left._20 * right.x + left._21 * right.y + left._22 * right.z + left._23 * right.w,
+                  left._30 * right.x + left._31 * right.y + left._32 * right.z + left._33 * right.w
   ));
 }
 
@@ -74,10 +74,10 @@ const vector4 operator*(const matriz_4x4 &op1, const vector4 &op2) {
 /**********************************
  * Funciones de la clase MATRIZ_3X3
  **********************************/
-matriz_3x3::matriz_3x3(const matriz_4x4 &op1) : BaseMatrix(3, 3) {
-  this->_00 = op1._00; this->_01 = op1._01; this->_02 = op1._02;
-  this->_10 = op1._10; this->_11 = op1._11; this->_12 = op1._12;
-  this->_20 = op1._20; this->_21 = op1._21; this->_22 = op1._22;
+matriz_3x3::matriz_3x3(const matriz_4x4 &right) : BaseMatrix(3, 3) {
+  this->_00 = right._00; this->_01 = right._01; this->_02 = right._02;
+  this->_10 = right._10; this->_11 = right._11; this->_12 = right._12;
+  this->_20 = right._20; this->_21 = right._21; this->_22 = right._22;
 }
 
 matriz_3x3::matriz_3x3(vector column0, vector column1, vector column2) :
@@ -450,14 +450,14 @@ matriz_mxn::matriz_mxn() : BaseMatrix(0, 0) {
 	this->elementos = null;
 }
 
-matriz_mxn::matriz_mxn(const matriz_mxn &op2) : BaseMatrix(op2.getNroFilas(), op2.getNroFilas())
+matriz_mxn::matriz_mxn(const matriz_mxn &right) : BaseMatrix(right.getNroFilas(), right.getNroFilas())
 {
 	this->elementos = new real[this->nroFilas * this->nroColumnas];
 
-	if(op2.elementos != null) {
-		memcpy(this->elementos, op2.elementos, sizeof(real) * this->nroFilas * this->nroColumnas);
+	if(right.elementos != null) {
+		memcpy(this->elementos, right.elementos, sizeof(real) * this->nroFilas * this->nroColumnas);
 	} else {
-		throw std::invalid_argument("No se ha asignado memoria para los elementos del operador matricial 2 - matriz_mxn::matriz_mxn(const matriz_mxn &op2)");
+		throw std::invalid_argument("No se ha asignado memoria para los elementos del operador matricial 2 - matriz_mxn::matriz_mxn(const matriz_mxn &right)");
 	}
 }
 matriz_mxn::~matriz_mxn()
@@ -486,125 +486,125 @@ matriz_mxn::~matriz_mxn()
 //	throw InvalidArgumentException("Index Out of Bounds - matriz_mxn::operator() const");
 //}
 
-const matriz_mxn &matriz_mxn::operator =(const matriz_mxn &op1)
+const matriz_mxn &matriz_mxn::operator =(const matriz_mxn &right)
 {
-  if(&op1 != this) {
-    if(op1.getNroColumnas() > 0 && op1.getNroFilas() > 0)
+  if(&right != this) {
+    if(right.getNroColumnas() > 0 && right.getNroFilas() > 0)
     {
-      if(this->getNroColumnas() != op1.getNroColumnas() || this->getNroFilas() != op1.getNroFilas()) {
+      if(this->getNroColumnas() != right.getNroColumnas() || this->getNroFilas() != right.getNroFilas()) {
         if(this->elementos != null) delete [] this->elementos;
 
-        this->nroColumnas = op1.nroColumnas;
-        this->nroFilas = op1.nroFilas;
+        this->nroColumnas = right.nroColumnas;
+        this->nroFilas = right.nroFilas;
         this->elementos = new real[this->nroFilas * this->nroColumnas];
       }
 
-      memcpy(this->elementos, op1.elementos, sizeof(real) * this->getNroFilas() * this->getNroColumnas());
+      memcpy(this->elementos, right.elementos, sizeof(real) * this->getNroFilas() * this->getNroColumnas());
     } else {
       throw std::invalid_argument("Operador Matricial no Inicializado correctamente - matriz_mxn::operator =");
     }
   }
 	return(*this);
 }
-const matriz_mxn matriz_mxn::operator + (const matriz_mxn &op1) const
+const matriz_mxn matriz_mxn::operator + (const matriz_mxn &right) const
 {
 	matriz_mxn respuesta(this->getNroFilas(), this->getNroColumnas());
 
-	if(this->getNroColumnas() == op1.getNroColumnas() && this->getNroFilas() == op1.getNroFilas())
+	if(this->getNroColumnas() == right.getNroColumnas() && this->getNroFilas() == right.getNroFilas())
 		for(unsigned short i = 0; i < this->getNroFilas(); i++)
 			for(unsigned short j = 0; j < this->getNroColumnas(); j++)
-				respuesta(i, j) = (*(matriz_mxn *)this)(i, j) + ((matriz_mxn &)op1)(i, j);
+				respuesta(i, j) = (*(matriz_mxn *)this)(i, j) + ((matriz_mxn &)right)(i, j);
 	else throw std::invalid_argument("matrices dimensions do not match - matriz_mxn::operator +");
 
 	return(respuesta);
 }
-//void matriz_mxn::operator += (const matriz_mxn &op1)
+//void matriz_mxn::operator += (const matriz_mxn &right)
 //{
-//	if(this->getNroFilas() == op1.getNroFilas() && this->getNroColumnas() == op1.getNroColumnas())
+//	if(this->getNroFilas() == right.getNroFilas() && this->getNroColumnas() == right.getNroColumnas())
 //		for(unsigned short i = 1; i <= this->getNroFilas(); i++)
 //			for(unsigned short j = 1; j <= this->getNroColumnas(); j++)
-//				(*this)(i, j) += ((matriz_mxn &)op1)(i, j);
+//				(*this)(i, j) += ((matriz_mxn &)right)(i, j);
 //	else throw InvalidArgumentException("Las dimensiones de las matrices son err�neas - matriz_mxn::operator +=");
 //}
 
-const matriz_mxn matriz_mxn::operator - (const matriz_mxn &op1) const
+const matriz_mxn matriz_mxn::operator - (const matriz_mxn &right) const
 {
 	matriz_mxn respuesta(this->getNroFilas(), this->getNroColumnas());
 
-	if(this->getNroFilas() == op1.getNroFilas() && this->getNroColumnas() == op1.getNroColumnas())
+	if(this->getNroFilas() == right.getNroFilas() && this->getNroColumnas() == right.getNroColumnas())
 		for(unsigned short i = 0; i < this->getNroFilas(); i++)
 			for(unsigned short j = 0; j < this->getNroColumnas(); j++)
-				respuesta(i, j) = (*(matriz_mxn *)this)(i, j) - ((matriz_mxn &)op1)(i, j);
+				respuesta(i, j) = (*(matriz_mxn *)this)(i, j) - ((matriz_mxn &)right)(i, j);
 	else throw std::invalid_argument("matrices dimensions do not match- matriz_mxn::operator -");
 
 	return(respuesta);
 }
-//void matriz_mxn::operator -= (const matriz_mxn &op1)
+//void matriz_mxn::operator -= (const matriz_mxn &right)
 //{
-//	if(this->getNroFilas() == op1.getNroFilas() && this->getNroColumnas() == op1.getNroColumnas())
+//	if(this->getNroFilas() == right.getNroFilas() && this->getNroColumnas() == right.getNroColumnas())
 //		for(unsigned short i = 1; i <= this->getNroFilas(); i++)
 //			for(unsigned short j = 1; j <= this->getNroColumnas(); j++)
-//				(*this)(i, j) -= ((matriz_mxn &)op1)(i, j);
+//				(*this)(i, j) -= ((matriz_mxn &)right)(i, j);
 //	else throw InvalidArgumentException("Las dimensiones de las matrices son err�neas - matriz_mxn::operator -=");
 //}
-//const matriz_mxn matriz_mxn::operator / (real op1) const
+//const matriz_mxn matriz_mxn::operator / (real right) const
 //{
 //	matriz_mxn respuesta(this->getNroFilas(), this->getNroColumnas());
 //
 //	for(unsigned short i = 1; i <= this->getNroFilas(); i++)
 //		for(unsigned short j = 1; j <= this->getNroColumnas(); j++)
-//			respuesta(i, j) = (*(matriz_mxn *)this)(i, j) / op1;
+//			respuesta(i, j) = (*(matriz_mxn *)this)(i, j) / right;
 //
 //	return(respuesta);
 //}
-//void matriz_mxn::operator /= (real op1)
+//void matriz_mxn::operator /= (real right)
 //{
 //	for(unsigned short i = 1; i <= this->getNroFilas(); i++)
 //		for(unsigned short j = 1; j <= this->getNroColumnas(); j++)
-//			(*this)(i, j) /= op1;
+//			(*this)(i, j) /= right;
 //}
-const matriz_mxn matriz_mxn::operator * (real op1) const
+const matriz_mxn matriz_mxn::operator * (real right) const
 {
 	matriz_mxn respuesta(this->getNroFilas(), this->getNroColumnas());
 
 	for(unsigned short i = 0; i < this->getNroFilas(); i++)
 		for(unsigned short j = 10; j < this->getNroColumnas(); j++)
-			respuesta(i, j) = (*(matriz_mxn *)this)(i, j) * op1;
+			respuesta(i, j) = (*(matriz_mxn *)this)(i, j) * right;
 
 	return(respuesta);
 }
-//void matriz_mxn::operator *= (real op1)
+//void matriz_mxn::operator *= (real right)
 //{
 //	for(unsigned short i = 1; i <= this->getNroFilas(); i++)
 //		for(unsigned short j = 1; j <= this->getNroColumnas(); j++)
-//			(*this)(i, j) *= op1;
+//			(*this)(i, j) *= right;
 //}
-const matriz_mxn matriz_mxn::operator * (const matriz_mxn &op1) const
+const matriz_mxn matriz_mxn::operator * (const matriz_mxn &right) const
 {
-	matriz_mxn resultado(this->getNroFilas(), op1.getNroColumnas());
+	matriz_mxn resultado(this->getNroFilas(), right.getNroColumnas());
 
-	if(this->getNroColumnas() == op1.getNroFilas()) {
+	if(this->getNroColumnas() == right.getNroFilas()) {
 		for(unsigned short i = 0; i < this->getNroFilas(); i++)
-			for(unsigned short j = 0; j < op1.getNroColumnas(); j++) {
+			for(unsigned short j = 0; j < right.getNroColumnas(); j++) {
 				resultado(i, j) = 0.0f;
 				for(unsigned short k = 0; k < this->getNroColumnas(); k++)
-					resultado(i, j) += (*(matriz_mxn *)this)(i, k) * ((matriz_mxn &)op1)(k, j);
+					resultado(i, j) += (*(matriz_mxn *)this)(i, k) * ((matriz_mxn &)right)(k, j);
 			}
 	}
 	else throw std::invalid_argument("Matrices dimensions do not match - matriz_mxn::operator *");
 	return(resultado);
 
 }
-//void matriz_mxn::operator *=(const matriz_mxn &op1)
+//void matriz_mxn::operator *=(const matriz_mxn &right)
 //{
 //	matriz_mxn temp(*this);
 //
-//	if(this->getNroColumnas() == op1.getNroFilas()) {
+//	if(this->getNroColumnas() == right.getNroFilas()) {
 //		for(unsigned short i = 1; i <= this->getNroFilas(); i++)
 //			for(unsigned short j = 1; j <= this->getNroColumnas(); j++) {
 //				(*this)(i, j) = 0.0f;
 //				for(unsigned short k = 1; k <= this->getNroColumnas(); k++)
-//					(*this)(i, j) += temp(i, k) * ((matriz_mxn &)op1)(k, j);
+//					(*this)(i, j) += temp(i, k) * ((matriz_mxn &)right)(k, j);
 //			}
 //	}
 //	else throw InvalidArgumentException("Las dimensiones de las matrices son err�neas - matriz_mxn::operator *=");
