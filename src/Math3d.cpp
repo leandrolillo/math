@@ -26,245 +26,16 @@ matriz_4x4 matriz_4x4::identidad(	1.0f, 0.0f, 0.0f, 0.0f,
 									   0.0f, 1.0f, 0.0f, 0.0f,
 									   0.0f, 0.0f, 1.0f, 0.0f,
 									   0.0f, 0.0f, 0.0f, 1.0f);
-									   
 
-//  / / - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+//  / / - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // | |  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// | |									Funciones de la Clase VECTOR2
+// | |                  Funciones de la MATRIZ_2X2
 // | | - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 //  \ \  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-									   
-									   
-vector2::vector2() {
-	*this = vector2(0.0f, 0.0f);
-}
-vector2::vector2(real x, real y) {
-	this->x = x;
-	this->y = y;
-}
-//vector2::vector2(const vector2 &op1) {
-//	*this = op1;
-//}
-
-const vector2 vector2::operator +(const vector2 &op1) const {
-	return(vector2(this->x + op1.x, this->y + op1.y));
-}
-const vector2 vector2::operator -(const vector2 &op1) const {
-	return(vector2(this->x - op1.x, this->y - op1.y));
-}
-
-const vector2 vector2::operator -(void) const {
-	return(vector2(-this->x, -this->y));
-}
-
-real vector2::operator *(const vector2 &op1) const {
-	return(this->productoEscalar(op1));
-}
-
-void vector2::operator +=(const vector2 &op1) {
-	this->x += op1.x;
-	this->y += op1.y;
-}
-void vector2::operator -=(const vector2 &op1) {
-	this->x -= op1.x;
-	this->y -= op1.y;
-}
-void vector2::operator *=(const real &op1) {
-	this->x *= op1;
-	this->y *= op1;
-}
-
-const vector2 vector2::operator *(const real &op1) const {
-	return(vector2(this->x * op1, this->y * op1));
-}
-
-real vector2::modulo() const {
-	return(sqrt(this->x * this->x + this->y * this->y));
-}
-
-//
-//void vector2::normalizar() {
-//	real modulo = this->modulo();
-//	if(modulo == 0.0f)
-//		throw InvalidStateException("Vector module is 0");
-//
-//	*this = *this * (1.0 / modulo);
-//}
-//const vector2 vector2::normalizado() const {
-//	real modulo = this->modulo();
-//	if(modulo == 0.0f)
-//		throw InvalidStateException("Vector module is 0");
-//
-//	return(*this * (1.0 / modulo));
-//}
-//
-//void vector2::perpendicularizar() {
-//	real temp = -this->y;
-//	this->y = this->x;
-//	this->x = temp;
-//}
-//const vector2 vector2::perpendicularizado() const {
-//	return(vector2(-this->y, this->x));
-//}
-//
-//const real vector2::perpDotProduct(const vector2 &op1) const {
-//	return(this->perpendicularizado() * op1);
-//}
-//const real vector2::productoEscalar(const vector2 &op1) const {
-//	return(this->x * op1.x + this->y * op1.y);
-//}
-
-vector2::operator real *() const {
-	return((real *)this->m);
-}
-									   
-//  / / - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-// | |  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// | |									Funciones de la Clase VECTOR3
-// | | - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-//  \ \  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-
-//	const real vector3::operator()(int indice) const{
-//		return(this->m[indice]);
-//	}
-
-//
-//	unsigned char vector3::Esta_normalizado(void) const { // Verifica si el m�dulo del vector3 es uno.
-//		return(((this->x * this->x) + (this->y * this->y) + (this->z * this->z)) == 1.0f);
-//	}
-//
-//	const real vector3::Normalizar(void) {		// No se pueden normalizar vector3es cuyo m�dulo es cero, en caso de intentarse se generar� un error de divide by zero.
-//		real modulo = this->Modulo();
-//
-//		if(modulo == 0.0f)
-//			throw InvalidStateException("Vector module is 0");
-//
-//		*this *= (1.0f / modulo);
-//
-//		return(modulo);
-//	}
-//
-//	const vector3 vector3::Normalizado(void) const {
-//		real modulo = this->Modulo();
-//
-//		if(modulo == 0.0f)
-//			throw InvalidStateException("Vector module is 0");
-//
-//		real oneOverModule = 1.0f / modulo;
-//		return(vector3(this->x * oneOverModule, this->y * oneOverModule, this->z * oneOverModule));
-//	}
-//
-//	const matriz_3x3 vector3::Star() const { // devuelve la matriz  "r estrella" con la cual se puede realizar el producto vector3ial.
-//		return( matriz_3x3(0.0f,    -this->z,  this->y,
-//						   this->z,   0.0f,    -this->x,
-//						   -this->y,  this->x,  0.0f));
-//	}
-
-
-//  / / - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-// | |  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// | |									Funciones de la MATRIZ_3X3
-// | | - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-//  \ \  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-matriz_2x2::matriz_2x2() : BaseMatrix(2, 2) {
-	this->_00 = 1.0f; this->_01 = 0.0f;
-	this->_10 = 0.0f; this->_11 = 1.0f;
-}
-matriz_2x2::matriz_2x2(real _00, real _01, real _10, real _11) : BaseMatrix(2, 2){
-	this->_00 = _00; this->_01 = _01;
-	this->_10 = _10; this->_11 = _11;
-}
-matriz_2x2::matriz_2x2(const matriz_2x2 &op1) : BaseMatrix(2, 2) {
-	*this = op1;
-}
-
-const matriz_2x2 matriz_2x2::operator +(const matriz_2x2 &op1) const {
-	return(matriz_2x2(	this->_00 + op1._00, this->_01 + op1._01,
-						this->_10 + op1._10, this->_11 + op1._11));
-}
-const matriz_2x2 matriz_2x2::operator -(const matriz_2x2 &op1) const {
-	return(matriz_2x2(	this->_00 - op1._00, this->_01 - op1._01,
-						this->_10 - op1._10, this->_11 - op1._11));
-}
-const matriz_2x2 matriz_2x2::operator *(const matriz_2x2 &op1) const {
-	return(matriz_2x2(	this->_00 * op1._00 + this->_01 * op1._10, this->_00 * op1._01 + this->_01 * op1._11, 
-						this->_10 * op1._00 + this->_11 * op1._10, this->_10 * op1._01 + this->_11 * op1._11));
-}
-		
-const matriz_2x2 matriz_2x2::operator *(const real &op1) const {
-	return(matriz_2x2(	this->_00 * op1, this->_01 * op1,
-						this->_10 * op1, this->_11 * op1));
-}
 
 const vector2 matriz_2x2::operator *(const vector2 &op1) const {
-	return(vector2(this->_00 * op1.x + this->_01 * op1.y, this->_10 * op1.x + this->_11 * op1.y));
+  return(vector2(this->_00 * op1.x + this->_01 * op1.y, this->_10 * op1.x + this->_11 * op1.y));
 }
-
-void matriz_2x2::operator +=(const matriz_2x2 &op1) {
-	this->_00 += op1._00; this->_01 += op1._01;
-	this->_10 += op1._10; this->_11 += op1._11;
-}
-void matriz_2x2::operator -=(const matriz_2x2 &op1) {
-	this->_00 -= op1._00; this->_01 -= op1._01;
-	this->_10 -= op1._10; this->_11 -= op1._11;
-}
-void matriz_2x2::operator *=(const matriz_2x2 &op1) {
-	*this = *this * op1;
-}
-
-void matriz_2x2::operator *=(const real &op1) {
-	this->_00 *= op1; this->_01 *= op1;
-	this->_10 *= op1; this->_11 *= op1;
-}
-
-//void matriz_2x2::transponer() {
-//	*this = matriz_2x2(	this->_00, this->_10,
-//						this->_01, this->_11);
-//}
-//const matriz_2x2 matriz_2x2::transpuesta() const {
-//	return(matriz_2x2(	this->_00, this->_10,
-//						this->_01, this->_11));
-//}
-//
-//void matriz_2x2::ortoNormalizar() {
-//}
-//const matriz_2x2 matriz_2x2::ortoNormalizada() const {
-//	return(*this);
-//}
-//
-//unsigned char matriz_2x2::esSingular() const {
-//	return(false);
-//}
-//
-//const real matriz_2x2::determinante() const {
-//	return(0.0f);
-//}
-//
-//unsigned char matriz_2x2::invertir() {
-//	return(false);
-//}
-//const matriz_2x2 matriz_2x2::inversa() const {
-//	return(*this);
-//}
-//
-//void matriz_2x2::hacerRotacion(real angulo) {
-//	real coseno = (real)cos(angulo), seno = (real)sin(angulo);
-//
-//	this->_00 = coseno; this->_01 = -seno;
-//	this->_10 = seno; this->_11 = coseno;
-//}
-//void matriz_2x2::hacerZoom(real x, real y) {
-//	this->_00 = x;
-//	this->_11 = y;
-//}
-//
-//void matriz_2x2::cargarIdentidad() {
-//	this->_00 = 1.0f; this->_01 = 0.0f;
-//	this->_10 = 0.0f; this->_11 = 1.0f;
-//
-//}
 
 //  / / - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 // | |  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -353,179 +124,26 @@ void matriz_2x2::operator *=(const real &op1) {
 	}
 
 
-	matriz_3x3::operator matriz_4x4 () const{
+	matriz_3x3::operator matriz_4x4 () const {
 		return(matriz_4x4(	_00, _01, _02, 0.0, 
 							_10, _11, _12, 0.0,
 							_20, _21, _22, 0.0,
 							0.0, 0.0, 0.0, 1.0));
 	}
 
-	const vector matriz_3x3::fila(unsigned int fila) const {
+	vector matriz_3x3::fila(unsigned int fila) const {
 			if (fila > 2)
 					throw std::out_of_range("Index Out of Bounds - matriz_3x3::fila(...)");
 
 			return vector(m[fila * 3], m[fila * 3 + 1], m[fila * 3 + 2]);
 	}
 
-	const vector matriz_3x3::columna(unsigned int columna) const {
+	vector matriz_3x3::columna(unsigned int columna) const {
 			if (columna > 2)
 					throw std::out_of_range("Index Out of Bounds - matriz_3x3::columna(...)");
 
 			return vector(m[0 * 3 + columna], m[1 * 3 + columna], m[2 * 3 + columna]);
 	}
-
-
-//	const matriz_3x3 matriz_3x3::HacerRotacion(real x, real y, real z) { //Construye una rotaci�n en �ngulos [radianes] de Euler
-//		real cx = (real)cos(x), sx = (real)sin(x);
-//		real cy = (real)cos(y), sy = (real)sin(y);
-//		real cz = (real)cos(z), sz = (real)sin(z);
-//
-//		this->_00 = (cy * cz);	this->_01 = (sx * sy * cz - cx * sz); 	this->_02 = (cx * sy * cz + sx * sz);
-//		this->_10 = (cy * sz); 	this->_11 = (sx * sy * sz + cx * cz); 	this->_12 = (cx * sy * sz - sx * cz);
-//		this->_20 = -sy;  	this->_21 = (sx * cy); 			this->_22 = (cx * cy);
-//
-//		return(*this);
-//	}
-//
-//	const matriz_3x3 matriz_3x3::HacerRotacion(const vector3 &angulos) { // Construye una rotaci�n en �ngulos [radianes] de Euler
-//		real cx = (real)cos(angulos.x), sx = (real)sin(angulos.x);
-//		real cy = (real)cos(angulos.y), sy = (real)sin(angulos.y);
-//		real cz = (real)cos(angulos.z), sz = (real)sin(angulos.z);
-//
-//		this->_00 = (cy * cz);	this->_01 = (sx * sy * cz - cx * sz); 	this->_02 = (cx * sy * cz + sx * sz);
-//		this->_10 = (cy * sz); 	this->_11 = (sx * sy * sz + cx * cz); 	this->_12 = (cx * sy * sz - sx * cz);
-//		this->_20 = -sy;  	this->_21 = (sx * cy); 			this->_22 = (cx * cy);
-//
-//		return(*this);
-//	}
-//
-//	const matriz_3x3 matriz_3x3::HacerRotacion(real angulo, real x, real y, real z) { // Construye una rotaci�n angulo [ra dianes] -eje(x, y, z) (debe estar normalizado)
-//		real c, s, umc, nxny1cos, nxnz1cos, nynz1cos;
-//		c = (real)cos(angulo);
-//		s = (real)sin(angulo);
-//		umc = (real)(1.0 - c); // umc = Uno Menos Coseno
-//
-//		nxny1cos = x * y * umc;
-//		nxnz1cos = x * z * umc;
-//		nynz1cos = y * z * umc;
-//
-//		this->_00 = (x * x * umc + c);	this->_01 = nxny1cos - s * z;	this->_02 = nxnz1cos + s * y;
-//		this->_10 = nxny1cos + s * z;	this->_11 = (y * y * umc) + c;  this->_12 = nynz1cos - s * x;
-//		this->_20 = nxnz1cos - s * y;	this->_21 = nynz1cos + s * x;       this->_22 = z * z * umc + c;
-//
-//		return(*this);
-//	}
-//
-//	const matriz_3x3 matriz_3x3::HacerRotacion(real angulo, const vector3 &eje) { // Construye una rotaci�n angulo [radianes] - eje (debe estar normalizado)
-//		return(this->HacerRotacion(angulo, eje.x, eje.y, eje.z));
-//	}
-//
-//	const matriz_3x3 matriz_3x3::HacerZoom(real x, real y, real z) { // Construye una matriz de escala
-//		this->_00 = x;
-//		this->_11 = y;
-//		this->_22 = z;
-//
-//		return(*this);
-//	}
-//
-//
-//	void matriz_3x3::Transponer(void) { // Transpone la matriz
-//		const matriz_3x3 temp = *this;
-//
-//		this->_01 = temp._10; this->_02 = temp._20;
-//		this->_10 = temp._01; this->_12 = temp._21;
-//		this->_20 = temp._02; this->_21 = temp._12;
-//	}
-//
-//	const matriz_3x3 matriz_3x3::Transpuesta(void) const { //Devuelve una matriz que esla transpuesta a la cual se le aplic� la operaci�n
-//		return(matriz_3x3(this->_00, this->_10, this->_20,
-//							this->_01, this->_11, this->_21,
-//							this->_02, this->_12, this->_22)
-//		);
-//	}
-//
-//	void matriz_3x3::Ortonormalizar(void) { //Verifica que los ejes formados por los vector3es columna de la matriz sean perpendiculares entre s�
-//		vector3 vec1(this->_00, this->_10, this->_20);
-//		vector3 vec2(this->_01, this->_11, this->_21);
-//		vector3 vec3;
-//
-//		vec1.Normalizar();
-//
-//		vec2 = (vec2 - ((vec2 * vec1) * vec1));
-//		vec2.Normalizar();
-//
-//		vec3 = vec1 ^ vec2;
-//
-//		this->_00 = vec1.x; this->_10 = vec1.y; this->_20 = vec1.z;
-//		this->_01 = vec2.x; this->_11 = vec2.y; this->_21 = vec2.z;
-//		this->_02 = vec3.x; this->_12 = vec3.y; this->_22 = vec3.z;
-//	}
-//
-//	const matriz_3x3 matriz_3x3::Ortonormalizada(void) const {
-//		vector3 vec1(this->_00, this->_10, this->_20);
-//		vector3 vec2(this->_01, this->_11, this->_21);
-//		vector3 vec3;
-//
-//		vec1.Normalizar();
-//
-//		vec2 = (vec2 - ((vec2 * vec1) * vec1));
-//		vec2.Normalizar();
-//
-//		vec3 = vec1 ^ vec2;
-//
-//		return(matriz_3x3(vec1.x, vec1.y, vec1.z,
-//							vec2.x, vec2.y, vec2.z,
-//							vec3.x, vec3.y, vec3.z));
-//	}
-//
-//	unsigned char matriz_3x3::EsSingular(void) { // Determina si es singular (o sea no inversible);
-//		return(this->Determinante() == 0.0f);
-//	}
-//
-//	const real matriz_3x3::Determinante(void) { //Calcula el determinante de la matriz.
-//		return(	  this->_00 * this->_11 * this->_22 +
-//					this->_02 * this->_10 * this->_21 +
-//					this->_01 * this->_12 * this->_20 -
-//					this->_02 * this->_11 * this->_20 -
-//					this->_12 * this->_21 * this->_00 -
-//					this->_01 * this->_10 * this->_22);
-//	}
-//
-//	unsigned char matriz_3x3::Invertir(void) { //Invierte la matriz mediante el determinante.
-//		real det = this->Determinante();
-//		if(det == 0.0f)  	return(false);
-//		else {
-//			det = 1.0f / det;
-//
-//			*this = matriz_3x3(
-//				(this->_11 * this->_22 - this->_12 * this->_21) * det, (-this->_01 * this->_22 + this->_02 * this->_21) * det , (this->_01 * this->_12 - this->_11 * this->_02) * det,
-//
-//				(-this->_10 * this->_22 + this->_12 * this->_20) * det, (this->_00 * this->_22 - this->_02 * this->_20) * det, (-this->_00 * this->_12 + this->_02 * this->_10) * det,
-//
-//				(this->_10 * this->_21 - this->_20 * this->_11) * det,  (-this->_00 * this->_21 + this->_01 * this->_20) * det, (this->_00 * this->_11 - this->_10 * this->_01) * det
-//			 );
-//		 }
-//		 return(true);
-//	}
-//
-//	const matriz_3x3 matriz_3x3::Inversa(void) const { //Devuelve una matriz que es la inversa de la matriz a la cual se le aplic� la operaci�n
-//		matriz_3x3 temp(*this);
-//		if(temp.Invertir()) return(temp);
-//		return(*this);
-//	}
-//
-//	void matriz_3x3::CargarIdentidad(void) { //Iguala la matriz a la identidad en espacio R3
-//			this->_00 = 1.0; this->_01 = 0.0; this->_02 = 0.0;
-//			this->_10 = 0.0; this->_11 = 1.0; this->_12 = 0.0;
-//			this->_20 = 0.0; this->_21 = 0.0; this->_22 = 1.0;
-//	}
-//	void matriz_3x3::Star(const vector3 &op1) { //Iguala la matriz a la matriz op1* (op1 star)
-//		this->_00 = 0.0f; this->_01 = -op1.z; this->_02 = op1.y;
-//		this->_10 = op1.z; this->_11 = 0.0f; this->_12 = -op1.x;
-//		this->_20 = -op1.y; this->_21 = op1.x; this->_22 = 0.0f;
-//	}
-	
-	
 	
 //  / / - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 // | |  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -910,19 +528,22 @@ matriz_mxn::~matriz_mxn()
 
 const matriz_mxn &matriz_mxn::operator =(const matriz_mxn &op1)
 {
-	if(op1.getNroColumnas() > 0 && op1.getNroFilas() > 0)
-	{
-		if(this->getNroColumnas() != op1.getNroColumnas() || this->getNroFilas() != op1.getNroFilas()) {
-			if(this->elementos != null) delete [] this->elementos;
+  if(&op1 != this) {
+    if(op1.getNroColumnas() > 0 && op1.getNroFilas() > 0)
+    {
+      if(this->getNroColumnas() != op1.getNroColumnas() || this->getNroFilas() != op1.getNroFilas()) {
+        if(this->elementos != null) delete [] this->elementos;
 
-			this->nroColumnas = op1.nroColumnas;
-			this->nroFilas = op1.nroFilas;
-			this->elementos = new real[this->nroFilas * this->nroColumnas];
-		}
+        this->nroColumnas = op1.nroColumnas;
+        this->nroFilas = op1.nroFilas;
+        this->elementos = new real[this->nroFilas * this->nroColumnas];
+      }
 
-		memcpy(this->elementos, op1.elementos, sizeof(real) * this->getNroFilas() * this->getNroColumnas());
-	}
-	else throw std::invalid_argument("Operador Matricial no Inicializado correctamente - matriz_mxn::operator =");
+      memcpy(this->elementos, op1.elementos, sizeof(real) * this->getNroFilas() * this->getNroColumnas());
+    } else {
+      throw std::invalid_argument("Operador Matricial no Inicializado correctamente - matriz_mxn::operator =");
+    }
+  }
 	return(*this);
 }
 const matriz_mxn matriz_mxn::operator + (const matriz_mxn &op1) const

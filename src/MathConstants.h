@@ -49,6 +49,7 @@
 		#define grado(angulo) (angulo * one_over_pi_over_180)
 	#endif
 
-	#define THRESHOLD 0.00000000000000000000000009
-	#define equalsZero(r) (-(real)THRESHOLD <= r && r <= (real)THRESHOLD)
+	#define MATH_EQUALS_MARGIN 0.00000000000000000000000009
+	#define equalsZeroAbsoluteMargin(r) (-(real)MATH_EQUALS_MARGIN <= r && r <= (real)MATH_EQUALS_MARGIN)
+  #define equalsAbsoluteMargin(left, right) equalsZero(left - right)
 #endif /* SRC_MATHCONSTANTS_H_ */
