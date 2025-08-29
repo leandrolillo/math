@@ -508,6 +508,14 @@ TEST_CASE("vector3") {
     CHECK(actual == 26);
   }
 
+  SECTION("Operator(vector) - cross product") {
+    vector3 left(1.0, 0.0, 0.0);
+    vector3 right(0.0, 1.0, 0.0);
+
+    vector actual = left ^ right;
+    CHECK_THAT(actual, EqualsVector(vector3(0, 0, 1)));
+  }
+
   SECTION("Modulo") {
     vector3 left(2.0, 2.0, 1.0);
 
