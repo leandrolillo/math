@@ -5,8 +5,7 @@
  *      Author: Lean
  */
 
-#ifndef SRC_MATHUTILITIES_H_
-#define SRC_MATHUTILITIES_H_
+#pragma once
 
 #include "Math3d.h"
 
@@ -46,5 +45,3 @@ class VectorUtilities
 		}
 
 };
-
-#endif /* SRC_MATHUTILITIES_H_ */

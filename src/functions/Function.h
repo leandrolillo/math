@@ -5,36 +5,31 @@
  *      Author: Lean
  */
 
-#ifndef FUNCTION_H_
-#define FUNCTION_H_
+#pragma once
 
-	#include<vector>
-	
+#include<vector>
+
 #include "Math3d.h"
 
+class FunctionMultiplication;
+class FunctionDivision;
+class FunctionAdd;
+class FunctionSubstract;
 
-	class FunctionMultiplication;
-	class FunctionDivision;
-	class FunctionAdd;
-	class FunctionSubstract;
+class Function {
+public:
+  virtual real evaluate(real x) const = 0;
 
-	class Function
-	{
-		public:
-			virtual real evaluate(real x) const = 0;
+  virtual real operator ()(real x) const {
+    return this->evaluate(x);
+  }
+  virtual std::string toString() const = 0;
 
-			virtual real operator ()(real x) const
-			{
-				return this->evaluate(x);
-			}
-			virtual std::string toString() const = 0;
+  FunctionMultiplication operator *(Function &operator1);
+  FunctionDivision operator /(Function &operator1);
+  FunctionAdd operator +(Function &operator1);
+  FunctionSubstract operator -(Function &operator1);
 
-			FunctionMultiplication operator *(Function &operator1);
-			FunctionDivision operator /(Function &operator1);
-			FunctionAdd operator +(Function &operator1);
-			FunctionSubstract operator -(Function &operator1);
-
-			virtual ~Function() {}
-	};
-
-#endif /* FUNCTION_H_ */
+  virtual ~Function() {
+  }
+};
