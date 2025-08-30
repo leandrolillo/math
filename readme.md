@@ -1,8 +1,15 @@
-#To rebuild from scratch
-cd ~/huevadas/projects/math && rm -rf build && mkdir build && cd build && cmake .. && make ; cd ..
+#Math.h
 
-#To build
-make
+Matrices & vectors library
 
-#To test
-make test
+
+#building: 
+./cmakew [path to main CMakeLists.txt]
+
+| Usage: cmakew [OPTIONS] Path-to-CMakeLists
+| Options: 
+|   -c clean
+|   -d debug
+|   -t test
+|   -f offline
+|   -w working folder - defaults to 'build'
