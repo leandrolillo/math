@@ -1,4 +1,6 @@
 * Add unit tests
 
 * Review class hierarchy: matriz_XxX and vectorX should have in common at least operator(i, j), getHeight, getWidth and getLength=getHeight*getWidth. operator(i) for vectors. Should this be in base class and have matrix_mxn as a separate class? Or should everything come from matrix_mxn
-*   At the very least review if matrix_mxn & vectorN should be separate classes from the rest and use constructors to conver matrizXxX to matriz_mxn 
+  * At the very least review if matrix_mxn & vectorN should be separate classes from the rest and use constructors to conver matrizXxX to matriz_mxn 
+  
+Implemented comparison for tests - Review RAII, swap and == operators. 
