@@ -699,8 +699,7 @@ public:
   }
 
 public:
-  vector2() {
-    *this = vector2(0.0f, 0.0f);
+  vector2() : vector2((real)0.0, (real)0.0){
   }
   vector2(real x, real y) {
     this->x = x;
@@ -822,7 +821,7 @@ public:
   };
 
 public:
-  vector3() {
+  vector3() : vector3((real)0.0, (real)0.0, (real)0.0){
   }
   vector3(real c_x, real c_y, real c_z) {
     this->x = c_x;
@@ -961,11 +960,7 @@ public:
   };
 
 public:
-  cuaternion(void) {
-    this->x = 0.0;
-    this->y = 0.0;
-    this->z = 0.0;
-    this->w = 1.0;
+  cuaternion(void) : cuaternion((real)0.0, (real)0.0, (real)0.0, (real)1.0) {
   }
 
   cuaternion(real new_x, real new_y, real new_z, real new_w) {
