@@ -829,6 +829,9 @@ public:
     this->z = c_z;
   }
 
+  vector3(vector2 vec, real z = 0.0) : vector3(vec.x, vec.y, z) {
+  }
+
   vector3(const vector3 &right) {  //constructor de copia
     memcpy(this->m, right.m, sizeof(this->m));
   }
@@ -969,11 +972,7 @@ public:
     this->z = new_z;
     this->w = new_w;
   }
-  cuaternion(const vector3 &right) { // copia los atributos x, y y z a los del cuaternion, dejando w = 0
-    this->x = right.x;
-    this->y = right.y;
-    this->z = right.z;
-    this->w = 0.0;
+  cuaternion(const vector3 &right, real w = 0.0) : cuaternion(right.x, right.y, right.z, w){
   }
 
   cuaternion(const cuaternion &right) {
