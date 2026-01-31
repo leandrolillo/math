@@ -398,6 +398,13 @@ TEST_CASE("matriz 4x4") {
     vector4 actual = left * right;
     CHECK_THAT(actual, EqualsVector(vector4( 82, 63, 106, 13+28+45+64)));
   }
+
+  SECTION("projections") {
+    matriz_4x4 projection = matriz_4x4::perspectiveProjection(800, 600, 10, 100);
+    projection = matriz_4x4::perspectiveProjectionFov(45, 1.3, 10, 100);
+    projection = matriz_4x4::orthographicProjection(800, 600, -1, 1);
+    projection = matriz_4x4::orthographicProjection(0, 0, 800, 600, -1, 1);
+  }
 }
 
 TEST_CASE("Vector2") {
