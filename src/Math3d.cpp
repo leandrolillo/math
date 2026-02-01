@@ -299,7 +299,7 @@ const matriz_4x4 matriz_4x4::orthographicProjection(real width, real height, rea
 /**
  * perspective projection with (0,0) in the center of the screen x increasing to the left and y increasing to the top.
  */
-const matriz_4x4 matriz_4x4::perspectiveProjection(real height, real width, real near, real far) {
+const matriz_4x4 matriz_4x4::perspectiveProjection(real width, real height, real near, real far) {
   real left = width * -0.5;
   real right = width * 0.5;
   real bottom = height * -0.5;
@@ -317,7 +317,7 @@ const matriz_4x4 matriz_4x4::perspectiveProjection(real height, real width, real
 
 const matriz_4x4 matriz_4x4::perspectiveProjectionFov(real fovy, real aspect, real near, real far) {
   real height = 2.0 * tan(radian(fovy) * 0.5) * near; // half height = tan of half the fov times near
-  return perspectiveProjection(height, height * aspect, near, far);
+  return perspectiveProjection(height * aspect, height, near, far);
 }
 
 //	void matriz_4x4::Trasponer(void) { //Transpone la matriz
