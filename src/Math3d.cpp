@@ -293,7 +293,7 @@ const matriz_4x4 matriz_4x4::orthographicProjection(real width, real height, rea
 //  real right = width * 0.5;
 //  real left = width * -0.5;
 
-  return orthographicProjection(width * -0.5, width * 0.5, height * 0.5, height * -0.5, near, far);
+  return orthographicProjection(width * -0.5, height * 0.5, width * 0.5, height * -0.5, near, far);
 }
 
 /**
