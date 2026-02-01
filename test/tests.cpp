@@ -400,10 +400,37 @@ TEST_CASE("matriz 4x4") {
   }
 
   SECTION("projections") {
+    /**
+     * Perspective projections
+     */
+
     matriz_4x4 projection = matriz_4x4::perspectiveProjection(800, 600, 10, 100);
     projection = matriz_4x4::perspectiveProjectionFov(45, 1.3, 10, 100);
+
+
+    /**
+     * Orthographic projections
+     */
     projection = matriz_4x4::orthographicProjection(800, 600, -1, 1);
-    projection = matriz_4x4::orthographicProjection(0, 0, 800, 600, -1, 1);
+
+    vector4 actual = projection * vector4(-400, -300, 0, 1);
+    CHECK(actual.x == -1);
+    CHECK(actual.y == -1);
+
+    actual = projection * vector4(400, 300, 0, 1);
+    CHECK(actual.x == 1);
+    CHECK(actual.y == 1);
+
+
+    projection = matriz_4x4::orthographicProjection(0, 600, 800, 0, -1, 1);
+
+    actual = projection * vector4(0, 0, 0, 1);
+    CHECK(actual.x == -1);
+    CHECK(actual.y == -1);
+
+    actual = projection * vector4(800, 600, 0, 1);
+    CHECK(actual.x == 1);
+    CHECK(actual.y == 1);
   }
 }
 
