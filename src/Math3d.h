@@ -426,7 +426,7 @@ public:
 
   static const matriz_4x4 orthographicProjection(real left, real top, real right, real bottom, real near, real far);
   static const matriz_4x4 orthographicProjection(real width, real height, real near, real far);
-  static const matriz_4x4 perspectiveProjection(real height, real width, real near, real far);
+  static const matriz_4x4 perspectiveProjection(real width, real height, real near, real far);
   static const matriz_4x4 perspectiveProjectionFov(real fovy, real aspect, real near, real far);
 
   static const matriz_4x4 base(const matriz_3x3 &orientacion,
