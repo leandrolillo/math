@@ -942,6 +942,10 @@ public:
 
     return String(temp);
   }
+
+  vector2 xy() const {
+    return vector2(this->x, this->y);
+  }
 private:
   real productoEscalar(const vector3 &right) const {
     return ((this->x * right.x) + (this->y * right.y) + (this->z * right.z));
@@ -1040,6 +1044,11 @@ public:
   operator vector3() const {
     return vector3(this->x, this->y, this->z);
   }
+
+  vector3 xyz() const {
+    return vector3(this->x, this->y, this->z);
+  }
+
 
   operator matriz_4x4() const { //Obtiene la matriz de 4x4 correspondiente al cuaternion sobre el cual se aplica la operacion.
     real y2 = y * y, x2 = x * x, z2 = z * z;
