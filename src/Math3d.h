@@ -954,14 +954,14 @@ private:
   }
 
   vector3 productoVectorial(const vector3 &right) const {
-    return (vector3((this->z * right.y - this->y * right.z),
-        (this->x * right.z - this->z * right.x),
-        (this->y * right.x - this->x * right.y)));
+    return (vector3((this->y * right.z - this->z * right.y),
+        (this->z * right.x - this->x * right.z),
+        (this->x * right.y - this->y * right.x)));
   }
 };
 
 class cuaternion {
-  friend const vector3 operator*(real left, const vector4 &right) {
+  friend const vector4 operator*(real left, const vector4 &right) {
     return (vector4(left * right.x, left * right.y, left * right.z, left * right.w));
   }
 

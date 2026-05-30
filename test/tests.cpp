@@ -264,7 +264,7 @@ TEST_CASE("Matriz 3x3") {
     vector3 right(  1.0, 2.0, 3.0);
 
     vector3 actual = left * right;
-    CHECK_THAT(actual, EqualsVector(vector3( 26, 35, 42)));
+    CHECK_THAT(actual, EqualsVector(vector3( 14, 32, 50)));
   }
 }
 
@@ -396,7 +396,7 @@ TEST_CASE("matriz 4x4") {
     vector4 right(  1.0, 2.0, 3.0, 4.0);
 
     vector4 actual = left * right;
-    CHECK_THAT(actual, EqualsVector(vector4( 82, 70, 110, 150)));
+    CHECK_THAT(actual, EqualsVector(vector4( 30, 70, 110, 150)));
   }
 
   SECTION("projections") {

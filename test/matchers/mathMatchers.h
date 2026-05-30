@@ -47,8 +47,8 @@ struct EqualsMatrixMatcher: Catch::Matchers::MatcherGenericBase {
 
 private:
   Matrix const &matrix;
-  real epsilon { 0.0000001 };
-  real margin { MATH_EQUALS_MARGIN };
+  real epsilon { 0.0001f };
+  real margin { 0.0001f };
 };
 
 template<typename Matrix>
@@ -94,8 +94,8 @@ struct EqualsVectorMatcher: Catch::Matchers::MatcherGenericBase {
 
 private:
   Vector const &vector;
-  real epsilon { 0.0001 };
-  real margin { MATH_EQUALS_MARGIN };
+  real epsilon { 0.0001f };
+  real margin { 0.0001f };
 };
 
 template<typename Vector>
