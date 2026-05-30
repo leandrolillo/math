@@ -1,6 +1,7 @@
 #include "Math3d.h"
 
 #include <string.h>
+#include <stdexcept>
 
 /**
  * Returns a random number of type real - in the range [0-1]
@@ -498,7 +499,7 @@ matriz_mxn::matriz_mxn() : BaseMatrix(0, 0) {
 	this->elementos = null;
 }
 
-matriz_mxn::matriz_mxn(const matriz_mxn &right) : BaseMatrix(right.getNroFilas(), right.getNroFilas())
+matriz_mxn::matriz_mxn(const matriz_mxn &right) : BaseMatrix(right.getNroFilas(), right.getNroColumnas())
 {
 	this->elementos = new real[this->nroFilas * this->nroColumnas];
 
@@ -616,7 +617,7 @@ const matriz_mxn matriz_mxn::operator * (real right) const
 	matriz_mxn respuesta(this->getNroFilas(), this->getNroColumnas());
 
 	for(unsigned short i = 0; i < this->getNroFilas(); i++)
-		for(unsigned short j = 10; j < this->getNroColumnas(); j++)
+		for(unsigned short j = 0; j < this->getNroColumnas(); j++)
 			respuesta(i, j) = (*(matriz_mxn *)this)(i, j) * right;
 
 	return(respuesta);
