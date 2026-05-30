@@ -68,11 +68,11 @@ TEST_CASE("Test basis") {
   vector position(1, 2, 3);
   matriz_3x3 orientation = matriz_3x3::matrizRotacion(angles);
 
-
-  matriz expected = matriz::base(orientation, position);
-  matriz actual = matriz::rotacion(angles) * matriz::traslacion(position);
-
-  CHECK_THAT(actual, EqualsMatrix(expected));
+  matriz actual = matriz::base(orientation, position);
+  CHECK_THAT(actual, EqualsMatrix(matriz(orientation(0, 0), orientation(0, 1), orientation(0, 2), position.x,
+                                         orientation(1, 0), orientation(1, 1), orientation(1, 2), position.y,
+                                         orientation(2, 0), orientation(2, 1), orientation(2, 2), position.z,
+                                         0.0f,              0.0f,              0.0f,              1.0f)));
 }
 
 TEST_CASE("Matriz 2x2") {
