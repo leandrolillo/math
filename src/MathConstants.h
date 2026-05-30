@@ -49,6 +49,6 @@ constexpr real two_pi = (real)2.0 * M_PI;
   #define grado(angulo) (angulo * one_over_pi_over_180)
 #endif
 
-constexpr real MATH_EQUALS_MARGIN = (real)0.00000000000000000000000009;
+constexpr real MATH_EQUALS_MARGIN = (real)0.0000001;
 #define equalsZeroAbsoluteMargin(r) (-(real)MATH_EQUALS_MARGIN <= r && r <= (real)MATH_EQUALS_MARGIN)
-#define equalsAbsoluteMargin(left, right) equalsZero(left - right)
+#define equalsAbsoluteMargin(left, right) equalsZeroAbsoluteMargin(left - right)
