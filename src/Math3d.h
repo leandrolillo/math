@@ -1,6 +1,8 @@
 #pragma once
 
 #include "MathConstants.h"
+#include <cstring>
+#include <stdexcept>
 //#include "baseMath.h"
 
 class matriz_2x2;
