@@ -501,10 +501,9 @@ matriz_mxn::matriz_mxn() : BaseMatrix(0, 0) {
 
 matriz_mxn::matriz_mxn(const matriz_mxn &right) : BaseMatrix(right.getNroFilas(), right.getNroColumnas())
 {
-	this->elementos = new real[this->nroFilas * this->nroColumnas];
-
 	if(right.elementos != null) {
-		memcpy(this->elementos, right.elementos, sizeof(real) * this->nroFilas * this->nroColumnas);
+	  this->elementos = new real[this->nroFilas * this->nroColumnas];
+	  memcpy(this->elementos, right.elementos, sizeof(real) * this->nroFilas * this->nroColumnas);
 	} else {
 		throw std::invalid_argument("No se ha asignado memoria para los elementos del operador matricial 2 - matriz_mxn::matriz_mxn(const matriz_mxn &right)");
 	}
