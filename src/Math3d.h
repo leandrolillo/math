@@ -622,6 +622,8 @@ public:
   //			void invertirTransformacion(void);
 };
 
+
+//TODO: Add move operators
 class matriz_mxn: public BaseMatrix {
 private:
   real *elementos;
