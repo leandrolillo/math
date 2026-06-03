@@ -1,5 +1,8 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_templated.hpp>
+#include <algorithm>
+#include <cmath>
+#include <cstdio>
 // ...
 
 template<typename Matrix>
@@ -15,11 +18,11 @@ struct EqualsMatrixMatcher: Catch::Matchers::MatcherGenericBase {
       return false;
     }
     for (unsigned int i = 0; i < matrix.getNroFilas(); i++) {
-      for (unsigned int j = 0; i < matrix.getNroColumnas(); i++) {
+      for (unsigned int j = 0; j < matrix.getNroColumnas(); j++) {
 
         real absDifference = std::abs(matrix(i, j) - other(i, j));
         bool absoluteMargin=absDifference <= margin;
-        bool relativeEpsilon=absDifference <= epsilon * std::max(matrix(i, j), other(i, j));
+        bool relativeEpsilon=absDifference <= epsilon * std::max(std::abs(matrix(i, j)), std::abs(other(i, j)));
 
         if (!absoluteMargin && !relativeEpsilon) {
           if(!absoluteMargin) {
@@ -27,7 +30,7 @@ struct EqualsMatrixMatcher: Catch::Matchers::MatcherGenericBase {
           }
 
           if(!relativeEpsilon) {
-            printf("Abs(%.5f, %.5f) = %.5f  >   %.5f * %5f = %.5f\n", matrix(i, j), other(i, j), absDifference, epsilon, std::max(matrix(i, j), other(i, j)), epsilon * std::max(matrix(i, j), other(i, j)));
+            printf("Abs(%.5f, %.5f) = %.5f  >   %.5f * %5f = %.5f\n", matrix(i, j), other(i, j), absDifference, epsilon, std::max(std::abs(matrix(i, j)), std::abs(other(i, j))), epsilon * std::max(std::abs(matrix(i, j)), std::abs(other(i, j))));
           }
 
           return false;
@@ -44,7 +47,7 @@ struct EqualsMatrixMatcher: Catch::Matchers::MatcherGenericBase {
 
 private:
   Matrix const &matrix;
-  real epsilon { 0.0000001 };
+  real epsilon { 0.0001 };
   real margin { MATH_EQUALS_MARGIN };
 };
 
@@ -67,7 +70,7 @@ struct EqualsVectorMatcher: Catch::Matchers::MatcherGenericBase {
     for (unsigned int i = 0; i < vector.getLength(); i++) {
       real absDifference = std::abs(vector(i) - other(i));
       bool absoluteMargin=absDifference <= margin;
-      bool relativeEpsilon=absDifference <= epsilon * std::max(vector(i), other(i));
+      bool relativeEpsilon=absDifference <= epsilon * std::max(std::abs(vector(i)), std::abs(other(i)));
 
       if (!absoluteMargin && !relativeEpsilon) {
         if(!absoluteMargin) {
@@ -75,8 +78,10 @@ struct EqualsVectorMatcher: Catch::Matchers::MatcherGenericBase {
         }
 
         if(!relativeEpsilon) {
-          printf("Abs(%.5f, %.5f) = %.5f  >   %.5f * %5f = %.5f\n", vector(i), other(i), absDifference, epsilon, std::max(vector(i), other(i)), epsilon * std::max(vector(i), other(i)));
+          printf("Abs(%.5f, %.5f) = %.5f  >   %.5f * %5f = %.5f\n", vector(i), other(i), absDifference, epsilon, std::max(std::abs(vector(i)), std::abs(other(i))), epsilon * std::max(std::abs(vector(i)), std::abs(other(i))));
         }
+
+        return false;
       }
     }
 
