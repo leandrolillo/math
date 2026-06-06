@@ -1,7 +1,7 @@
 FetchContent_Declare(
     Catch2
     GIT_REPOSITORY https://github.com/catchorg/Catch2
-    GIT_TAG v3.5.3
+    GIT_TAG ${CATCH2_VERSION}
     GIT_SHALLOW TRUE
     SOURCE_DIR "${THIRD_PARTY_DEPS_DIR}/catch2-src"
     BINARY_DIR    "${THIRD_PARTY_DEPS_DIR}/catch2-build"
