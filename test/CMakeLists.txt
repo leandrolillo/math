@@ -1,8 +1,13 @@
 FetchContent_Declare(
     Catch2
     GIT_REPOSITORY https://github.com/catchorg/Catch2
-    GIT_TAG v3.5.3
-    GIT_SHALLOW TRUE)
+    GIT_TAG ${CATCH2_VERSION}
+    GIT_SHALLOW TRUE
+    SOURCE_DIR "${THIRD_PARTY_DEPS_DIR}/catch2-src"
+    BINARY_DIR    "${THIRD_PARTY_DEPS_DIR}/catch2-build"
+    SUBBUILD_DIR  "${THIRD_PARTY_DEPS_DIR}/catch2-subbuild"    
+    )
+    
 FetchContent_MakeAvailable(Catch2)
 list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras) #Enable catch2 / ctest integration
 
